@@ -1,19 +1,39 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+@use './theme-colors' as custom-theme;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 
 html {
   @include mat.theme((
     color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
+      theme-type : dark,
+      primary : custom-theme.$primary-palette,
+      tertiary : custom-theme.$tertiary-palette,
     ),
-    typography: Roboto,
-    density: 0,
+    typography: (
+      plain-family : 'Inter',
+      brand-family : 'Inter',
+      regular-weight: 400,
+      medium-weight : 600,
+      bold-weight : 600
+    ),
+    density: -2,
   ));
-}/* You can add global styles to this file, and also import other style files */
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+mat-sidenav mat-toolbar, mat-sidenav {
+  background-color: mat.m2-get-color-from-palette(custom-theme.$primary-palette, 10) !important;
+}
+
+mat-sidenav-content mat-toolbar, mat-sidenav-content {
+  background-color: mat.m2-get-color-from-palette(custom-theme.$primary-palette, 20) !important;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
