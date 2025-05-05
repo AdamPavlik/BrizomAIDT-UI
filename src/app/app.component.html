@@ -15,6 +15,12 @@
         <mat-toolbar class="toolbar">
           <button *ngIf="!snav.opened" mat-icon-button (click)="snav.toggle()"><mat-icon svgIcon="side-nav"></mat-icon></button>
           <mat-icon class="logo" svgIcon="logo" routerLink=""></mat-icon><span class="tittle" routerLink="">{{title}}</span>
+          <button mat-mini-fab class="user" [matMenuTriggerFor]="menu" (click)="renderAuth()">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <div id="g_id_signin"></div>
+          </mat-menu>
         </mat-toolbar>
         <router-outlet/>
       </mat-sidenav-content>

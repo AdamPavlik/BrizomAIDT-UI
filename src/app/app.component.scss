@@ -26,10 +26,6 @@ mat-nav-list {
   right: 0;
 }
 
-.is-mobile .toolbar {
-  position: fixed;
-  z-index: 2;
-}
 
 h1.app-name {
   margin-left: 8px;
@@ -52,4 +48,8 @@ h1.app-name {
 .logo {
   margin-left: 10px;
   cursor: pointer;
+}
+
+.user {
+  margin-left: auto;
 }
