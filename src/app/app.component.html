@@ -20,8 +20,11 @@
             <img  *ngIf="isAuthenticated()" alt="avatar" [src]="currentUser().picture" class="avatar"/>
           </button>
           <mat-menu #menu="matMenu">
-            <div *ngIf="!isAuthenticated()">
-              <button mat-button (click)="login()" >Log In</button>
+            <div *ngIf="!isAuthenticated()" class="auth">
+              <mat-icon class="google" svgIcon="google" (click)="login()"></mat-icon>
+              <mat-divider></mat-divider>
+              <button mat-button>Terms of Service</button>
+              <button mat-button>Privacy policy</button>
             </div>
             <div *ngIf="isAuthenticated()">
               <mat-list class="user-menu">

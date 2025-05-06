@@ -37,6 +37,11 @@ export class AppComponent implements OnDestroy {
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg'),
     );
 
+    iconReg.addSvgIcon(
+      'google',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/web_dark_rd_SI.svg'),
+    );
+
     this._mobileQuery = media.matchMedia('(max-width: 600px)');
     this.isMobile.set(this._mobileQuery.matches);
     this._mobileQueryListener = () => this.isMobile.set(this._mobileQuery.matches);

@@ -3,6 +3,7 @@ mat-nav-list {
   padding: 0 15px;
   display: flex;
   flex-direction: column;
+
   button {
     border-radius: 8px;
     display: inline-flex;
@@ -12,12 +13,26 @@ mat-nav-list {
 }
 
 .avatar {
-  display: block;          /* remove inline img quirks */
-  width: 24px;             /* match mat-icon size (default 24×24) */
+  display: block; /* remove inline img quirks */
+  width: 24px; /* match mat-icon size (default 24×24) */
   height: 24px;
-  border-radius: 50%;      /* circle */
-  object-fit: cover;       /* scale & crop to fill */
-  margin: auto;            /* center inside the button */
+  border-radius: 50%; /* circle */
+  object-fit: cover; /* scale & crop to fill */
+  margin: auto; /* center inside the button */
+}
+
+.google {
+  width: 175px;
+  height: 40px;
+  margin: 10px;
+}
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  button {
+    width: 100%;
+  }
 }
 
 
