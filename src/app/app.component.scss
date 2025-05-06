@@ -11,6 +11,16 @@ mat-nav-list {
   }
 }
 
+.avatar {
+  display: block;          /* remove inline img quirks */
+  width: 24px;             /* match mat-icon size (default 24×24) */
+  height: 24px;
+  border-radius: 50%;      /* circle */
+  object-fit: cover;       /* scale & crop to fill */
+  margin: auto;            /* center inside the button */
+}
+
+
 .tittle {
   padding-left: 10px;
   cursor: pointer;

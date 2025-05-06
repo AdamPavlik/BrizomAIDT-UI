@@ -1,80 +1,90 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {CognitoIdentityCredentials, fromCognitoIdentityPool} from '@aws-sdk/credential-provider-cognito-identity';
+import {fromCognitoIdentityPool} from '@aws-sdk/credential-provider-cognito-identity';
 import {CognitoIdentityClient} from '@aws-sdk/client-cognito-identity';
 import {
-    CognitoIdentityCredentialProvider
+  CognitoIdentityCredentialProvider
 } from '@aws-sdk/credential-provider-cognito-identity/dist-types/fromCognitoIdentity';
+import {AuthConfig, OAuthService} from 'angular-oauth2-oidc';
 
-declare global {
-    interface Window {
-        google: any;
-    }
-}
+
+export const authConfig: AuthConfig = {
+  issuer: environment.googleIssuer,
+  clientId: environment.googleClientId,
+  redirectUri: window.location.origin,
+  silentRefreshRedirectUri: window.location.origin,
+  responseType: 'id_token token',
+  scope: 'openid profile email',
+  strictDiscoveryDocumentValidation: false,
+  oidc: true,
+  requestAccessToken: true,
+  clearHashAfterLogin: true,
+  disableAtHashCheck: true,
+  showDebugInformation: true,
+};
+
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class AuthService {
 
-    private credsProvider!: CognitoIdentityCredentialProvider;
 
-    constructor() {
-        window.google?.accounts?.id.initialize({
-            client_id: environment.googleClientId,
-            callback: this.handleCredResponse.bind(this)
-        });
-    }
+  private credsProvider!: CognitoIdentityCredentialProvider;
 
-
-    private async handleCredResponse(response: { credential: string }) {
-        const idToken = response.credential;
-        console.log(response);
-
-
-        const profile = this.parseJwt<{
-            sub: string;
-            email: string;
-            name: string;
-            picture: string;
-        }>(idToken);
-
-        console.log(profile);
-
-
+  constructor(private oauth: OAuthService) {
+    this.oauth.configure(authConfig);
+    this.oauth.loadDiscoveryDocumentAndTryLogin().then(() => {
+      this.oauth.setupAutomaticSilentRefresh();
+      if(this.oauth.hasValidIdToken()) {
         this.credsProvider = fromCognitoIdentityPool({
-            client: new CognitoIdentityClient({region: environment.awsRegion}),
-            identityPoolId: environment.identityPoolId,
-            logins: {'accounts.google.com': idToken}
+          client: new CognitoIdentityClient({region: environment.awsRegion}),
+          identityPoolId: environment.identityPoolId,
+          logins: {'accounts.google.com': this.oauth.getIdToken()}
         });
+      } else {
+        this.credsProvider = fromCognitoIdentityPool({
+          client: new CognitoIdentityClient({region: environment.awsRegion}),
+          identityPoolId: environment.identityPoolId,
+        });
+      }
+    })
+  }
 
+  isAuthenticated(): boolean {
+    return this.oauth.hasValidIdToken();
+  }
 
-        const creds = await this.credsProvider();
-        console.log('AWS creds:', creds);
-    }
+  getCurrentUser(): User {
+    return this.parseJwt(this.oauth.getIdToken());
+  }
 
-    private parseJwt<T>(token: string): T {
-        const [, payloadB64] = token.split('.');
-        const json = atob(payloadB64.replace(/-/g, '+').replace(/_/g, '/'));
-        return JSON.parse(json);
-    }
+  login() {
+    this.oauth.initImplicitFlow();
+  }
 
-    renderButton(elementId: string) {
-        window.google.accounts.id.renderButton(
-            document.getElementById(elementId),
-            {
-                theme: 'filled_black',  // black background with white text
-                size: 'small',         // smaller overall footprint
-                type: 'standard'       // keeps the “Sign in with Google” text
-            }
-        );
-    }
+  logout() {
+    this.oauth.logOut();
+    this.credsProvider = fromCognitoIdentityPool({
+      client: new CognitoIdentityClient({region: environment.awsRegion}),
+      identityPoolId: environment.identityPoolId
+    })
+  }
 
-    async getCredentials(): Promise<CognitoIdentityCredentials> {
-        if (!this.credsProvider) {
-            throw new Error('Not signed in yet');
-        }
-        return await this.credsProvider();
-    }
+  awsCredentialsProvider(): CognitoIdentityCredentialProvider {
+    return this.credsProvider;
+  }
 
+  private parseJwt<T>(token: string): T {
+    const [, payloadB64] = token.split('.');
+    const json = atob(payloadB64.replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(json);
+  }
+
+}
+
+export interface User {
+  email: string;
+  name: string;
+  picture: string;
 }

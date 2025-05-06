@@ -15,11 +15,23 @@
         <mat-toolbar class="toolbar">
           <button *ngIf="!snav.opened" mat-icon-button (click)="snav.toggle()"><mat-icon svgIcon="side-nav"></mat-icon></button>
           <mat-icon class="logo" svgIcon="logo" routerLink=""></mat-icon><span class="tittle" routerLink="">{{title}}</span>
-          <button mat-mini-fab class="user" [matMenuTriggerFor]="menu" (click)="renderAuth()">
-            <mat-icon>account_circle</mat-icon>
+          <button mat-icon-button class="user" [matMenuTriggerFor]="menu">
+            <mat-icon *ngIf="!isAuthenticated()">account_circle</mat-icon>
+            <img  *ngIf="isAuthenticated()" alt="avatar" [src]="currentUser().picture" class="avatar"/>
           </button>
           <mat-menu #menu="matMenu">
-            <div id="g_id_signin"></div>
+            <div *ngIf="!isAuthenticated()">
+              <button mat-button (click)="login()" >Log In</button>
+            </div>
+            <div *ngIf="isAuthenticated()">
+              <mat-list class="user-menu">
+                <mat-list-item>{{currentUser().name}}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>{{currentUser().email}}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item><button mat-button color="error" (click)="logOut()" >Log Out</button></mat-list-item>
+              </mat-list>
+            </div>
           </mat-menu>
         </mat-toolbar>
         <router-outlet/>
