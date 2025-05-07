@@ -14,7 +14,7 @@ $gptTheme: mat.define-theme(
         brand-family: Inter,
         bold-weight: 600,
         medium-weight: 500,
-        regular-weight: 400,
+        regular-weight: 400
       ),
       density: (
         scale: -3
@@ -24,9 +24,10 @@ $gptTheme: mat.define-theme(
 
 html {
   color-scheme: dark;
-  @include mat.all-component-themes($gptTheme);
+  @include mat.all-component-colors($gptTheme);
   @include mat.typography-hierarchy($gptTheme);
   @include mat.all-component-densities($gptTheme);
+
   @include mat.sidenav-overrides((
     'container-background-color': mat.get-theme-color($gptTheme, primary, 10),
     'content-background-color':   mat.get-theme-color($gptTheme, primary, 20)
@@ -51,15 +52,15 @@ html {
   }
 
   .secondary {
-    @include mat.button-theme($theme: $gptTheme, $color-variant: 'secondary');
+    @include mat.button-color($theme: $gptTheme, $color-variant: 'secondary');
   }
 
   .tertiary {
-    @include mat.button-theme($theme: $gptTheme, $color-variant: 'tertiary');
+    @include mat.button-color($theme: $gptTheme, $color-variant: 'tertiary');
   }
 
   .error {
-    @include mat.button-theme($theme: $gptTheme, $color-variant: 'error');
+    @include mat.button-color($theme: $gptTheme, $color-variant: 'error');
   }
 
 }
