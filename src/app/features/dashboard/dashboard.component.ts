@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {AppSyncService, Coin} from '../../core/grapfql/app-sync.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,5 +8,10 @@ import {Component} from '@angular/core';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
+
+  public coins: Array<Coin> = [];
+
+  constructor(appSyncService: AppSyncService) {
+  }
 
 }

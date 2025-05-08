@@ -7,7 +7,6 @@ import {
 } from '@aws-sdk/credential-provider-cognito-identity/dist-types/fromCognitoIdentity';
 import {AuthConfig, OAuthService} from 'angular-oauth2-oidc';
 
-
 export const authConfig: AuthConfig = {
   issuer: environment.googleIssuer,
   clientId: environment.googleClientId,
@@ -23,32 +22,31 @@ export const authConfig: AuthConfig = {
   showDebugInformation: true,
 };
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-
-  private credsProvider!: CognitoIdentityCredentialProvider;
+  private readonly credentialProvider: CognitoIdentityCredentialProvider;
 
   constructor(private oauth: OAuthService) {
-    this.oauth.configure(authConfig);
-    this.oauth.loadDiscoveryDocumentAndTryLogin().then(() => {
-      this.oauth.setupAutomaticSilentRefresh();
-      if(this.oauth.hasValidIdToken()) {
-        this.credsProvider = fromCognitoIdentityPool({
-          client: new CognitoIdentityClient({region: environment.awsRegion}),
-          identityPoolId: environment.identityPoolId,
-          logins: {'accounts.google.com': this.oauth.getIdToken()}
-        });
-      } else {
-        this.credsProvider = fromCognitoIdentityPool({
-          client: new CognitoIdentityClient({region: environment.awsRegion}),
-          identityPoolId: environment.identityPoolId,
-        });
-      }
-    })
+    if (this.oauth.hasValidIdToken()) {
+      oauth.setupAutomaticSilentRefresh();
+      this.credentialProvider = fromCognitoIdentityPool({
+        client: new CognitoIdentityClient({region: environment.awsRegion}),
+        identityPoolId: environment.identityPoolId,
+        logins: {'accounts.google.com': this.oauth.getIdToken()}
+      });
+    } else {
+      this.credentialProvider = fromCognitoIdentityPool({
+        client: new CognitoIdentityClient({region: environment.awsRegion}),
+        identityPoolId: environment.identityPoolId,
+      });
+    }
+  }
+
+  getCredentialProviderProvider() {
+    return this.credentialProvider;
   }
 
   isAuthenticated(): boolean {
@@ -65,14 +63,7 @@ export class AuthService {
 
   logout() {
     this.oauth.logOut();
-    this.credsProvider = fromCognitoIdentityPool({
-      client: new CognitoIdentityClient({region: environment.awsRegion}),
-      identityPoolId: environment.identityPoolId
-    })
-  }
-
-  awsCredentialsProvider(): CognitoIdentityCredentialProvider {
-    return this.credsProvider;
+    window.location.reload();
   }
 
   private parseJwt<T>(token: string): T {
