@@ -1,9 +1,9 @@
 <mat-card >
   <mat-card-header>
-    <mat-card-subtitle>Add more coins</mat-card-subtitle>
+    <mat-card-subtitle>Add coin</mat-card-subtitle>
   </mat-card-header>
     <mat-card-content>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="coin-select">
         <mat-label>Coin</mat-label>
         <mat-select #coinSelect placeholder="coin">
           <mat-option *ngFor="let coin of availableCoins" [value]="coin">{{coin}}</mat-option>

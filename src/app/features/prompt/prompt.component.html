@@ -1,1 +1,68 @@
-<p>prompt works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Add Prompt</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field appearance="outline">
+      <textarea #promptText matInput rows="3" placeholder="Your prompt"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Prompt Role</mat-label>
+      <mat-select #roleSelect placeholder="Role">
+        <mat-option value="SYSTEM">System</mat-option>
+        <mat-option value="DEVELOPER">Developer</mat-option>
+        <mat-option value="USER">User</mat-option>
+        <mat-option value="ASSISTANT">Assistant</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-stroked-button [disabled]="!promptText.value || !roleSelect.value"
+            (click)="addPrompt(promptText.value, roleSelect.value); promptText.value = ''; roleSelect.value = undefined">
+      Add prompt
+    </button>
+  </mat-card-actions>
+</mat-card>
+<div class="card-container">
+  <mat-accordion>
+    <mat-expansion-panel #panel *ngFor="let prompt of prompts">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ prompt.role }}
+        </mat-panel-title>
+        <mat-panel-description> {{ prompt.prompt.slice(0, 30) }}...</mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-form-field appearance="outline">
+        <textarea rows="5" matInput [value]="prompt.prompt" [(ngModel)]="prompt.prompt"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-select placeholder="Role" [(ngModel)]="prompt.role">
+          <mat-option value="SYSTEM">System</mat-option>
+          <mat-option value="DEVELOPER">Developer</mat-option>
+          <mat-option value="USER">User</mat-option>
+          <mat-option value="ASSISTANT">Assistant</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-action-row>
+        <mat-slide-toggle [checked]="prompt.enabled" [(ngModel)]="prompt.enabled"
+                          (change)="updatePrompt(prompt)"></mat-slide-toggle>
+        <button mat-stroked-button [value]="prompt.enabled" class="error" (click)="deletePrompt(prompt.id)">Delete
+        </button>
+        <button mat-stroked-button (click)="updatePrompt(prompt); panel.close()">Update</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

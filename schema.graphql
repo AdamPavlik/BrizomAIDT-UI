@@ -18,6 +18,14 @@ input DeleteCoinInput {
   id: ID!
 }
 
+type Prompt {
+  id: ID
+  userId: String
+  role: String
+  prompt: String
+  enabled: Boolean
+}
+
 input UpdateCoinInput {
   id: ID!
   symbol: String!
@@ -34,6 +42,7 @@ type Mutation {
 
 type Query {
   getCoins: [Coin]
+  getPrompts: [Prompt]
 }
 
 schema {

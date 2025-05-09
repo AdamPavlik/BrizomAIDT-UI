@@ -36,3 +36,14 @@ export const DELETE_COIN = gql`
     deleteCoin(input: $input)
   }
 `;
+
+export const GET_PROMPTS = gql`
+  query getPrompts {
+    getPrompts {
+      id
+      prompt
+      role
+      enabled
+    }
+  }
+`;
