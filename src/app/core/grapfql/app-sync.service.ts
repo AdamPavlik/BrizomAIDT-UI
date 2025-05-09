@@ -7,7 +7,7 @@ import {
   CognitoIdentityCredentialProvider
 } from '@aws-sdk/credential-provider-cognito-identity/dist-types/fromCognitoIdentity';
 import {environment} from '../../../environments/environment';
-import {ApolloClient, ApolloLink, gql, HttpLink, InMemoryCache} from '@apollo/client/core';
+import {ApolloClient, ApolloLink, HttpLink, InMemoryCache} from '@apollo/client/core';
 
 
 export const createSignedFetcher = (credentials: CognitoIdentityCredentialProvider, region: string, endpoint: string) => {
@@ -64,20 +64,10 @@ export class AppSyncService {
     });
   }
 
-  async fetchCoins() {
-    const QUERY = gql`
-      query getCoins {
-        getCoins {
-          id
-          symbol
-        }
-      }
-    `;
-    this.apollo.query({query: QUERY}).then(value => console.log(value.data))
+  public getApollo() {
+    return this.apollo;
   }
+
 }
 
-export interface Coin {
-  id: string;
-  symbol: string;
-}
+

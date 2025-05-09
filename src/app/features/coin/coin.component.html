@@ -1,0 +1,60 @@
+<mat-card >
+  <mat-card-header>
+    <mat-card-subtitle>Add more coins</mat-card-subtitle>
+  </mat-card-header>
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Coin</mat-label>
+        <mat-select #coinSelect placeholder="coin">
+          <mat-option *ngFor="let coin of availableCoins" [value]="coin">{{coin}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-card-actions align="end">
+        <button [disabled]="!coinSelect.value" (click)="addCoin(coinSelect.value); coinSelect.value = undefined" mat-stroked-button>Add new coin</button>
+      </mat-card-actions>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-content>
+    <table mat-table [dataSource]="coins" class="coin-table mat-elevation-z2">
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef>Symbol</th>
+        <td mat-cell *matCellDef="let c"><strong>{{ c.symbol }}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="generateSignal">
+        <th mat-header-cell *matHeaderCellDef>Generate Signals</th>
+        <td mat-cell *matCellDef="let c">
+          <mat-slide-toggle [(ngModel)]="c.generateSignal" (change)="updateCoin(c)"></mat-slide-toggle>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sendEmail">
+        <th mat-header-cell *matHeaderCellDef>Send Emails</th>
+        <td mat-cell *matCellDef="let c">
+          <mat-slide-toggle [(ngModel)]="c.sendEmail" (change)="updateCoin(c)"></mat-slide-toggle>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="executeOrder">
+        <th mat-header-cell *matHeaderCellDef>Execute Orders</th>
+        <td mat-cell *matCellDef="let c">
+          <mat-slide-toggle [(ngModel)]="c.executeOrder" (change)="updateCoin(c)"></mat-slide-toggle>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let c">
+          <button mat-icon-button aria-label="Delete coin" class="error" (click)="deleteCoin(c)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- header & rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

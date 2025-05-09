@@ -22,24 +22,51 @@ $gptTheme: mat.define-theme(
     )
 );
 
-html {
-  color-scheme: dark;
-  @include mat.all-component-colors($gptTheme);
-  @include mat.typography-hierarchy($gptTheme);
-  @include mat.all-component-densities($gptTheme);
 
+:root {
+  color-scheme: dark;
+  @include mat.all-component-themes($gptTheme);
   @include mat.sidenav-overrides((
     'container-background-color': mat.get-theme-color($gptTheme, primary, 10),
-    'content-background-color':   mat.get-theme-color($gptTheme, primary, 20)
+    'content-background-color': mat.get-theme-color($gptTheme, primary, 20)
   ));
-
   @include mat.toolbar-overrides((
     'container-background-color': mat.get-theme-color($gptTheme, primary, 20)
   ));
-
   @include mat.divider-overrides((
     'color': mat.get-theme-color($gptTheme, primary, 30)
   ));
+  @include mat.slide-toggle-overrides((
+    track-outline-width: 0,
+    unselected-icon-color: transparent,
+    selected-icon-color: transparent,
+    selected-track-color: #008635,
+    selected-hover-track-color: #008635,
+    selected-focus-track-color: #008635,
+    selected-pressed-track-color: #008635,
+    track-height: 30px,
+    selected-handle-color: mat.get-theme-color($gptTheme, primary, 20),
+    selected-hover-handle-color: mat.get-theme-color($gptTheme, primary, 20),
+    selected-focus-handle-color: mat.get-theme-color($gptTheme, primary, 20),
+    selected-pressed-handle-color: mat.get-theme-color($gptTheme, primary, 20),
+    unselected-handle-color: mat.get-theme-color($gptTheme, primary, 10),
+    unselected-hover-handle-color: mat.get-theme-color($gptTheme, primary, 10),
+    unselected-focus-handle-color: mat.get-theme-color($gptTheme, primary, 10),
+    unselected-pressed-handle-color: mat.get-theme-color($gptTheme, primary, 10),
+  ));
+  @include mat.table-overrides((
+    background-color: mat.get-theme-color($gptTheme, primary, 10),
+  ));
+  @include mat.card-overrides((
+    elevated-container-shape: 10px,
+    elevated-container-color: mat.get-theme-color($gptTheme, primary, 10)
+  ));
+  mat-card {
+    margin: 0 15px 15px 15px;
+  }
+  mat-card-content {
+    overflow-x: auto;
+  }
 
   mat-sidenav {
     @include mat.toolbar-overrides((
@@ -61,6 +88,11 @@ html {
 
   .error {
     @include mat.button-color($theme: $gptTheme, $color-variant: 'error');
+    @include mat.icon-button-color($theme: $gptTheme, $color-variant: 'error');
+  }
+
+  mat-card-header {
+    margin-bottom: 15px;
   }
 
 }
@@ -73,4 +105,3 @@ html, body {
 body {
   margin: 0;
 }
-

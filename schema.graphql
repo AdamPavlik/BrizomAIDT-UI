@@ -1,0 +1,42 @@
+input AddCoinInput {
+  symbol: String!
+  executeOrder: Boolean
+  generateSignal: Boolean
+  sendEmail: Boolean
+}
+
+type Coin {
+  id: ID
+  symbol: String
+  userId: String
+  executeOrder: Boolean
+  generateSignal: Boolean
+  sendEmail: Boolean
+}
+
+input DeleteCoinInput {
+  id: ID!
+}
+
+input UpdateCoinInput {
+  id: ID!
+  symbol: String!
+  executeOrder: Boolean!
+  generateSignal: Boolean!
+  sendEmail: Boolean!
+}
+
+type Mutation {
+  addCoin(input: AddCoinInput!): Coin!
+  updateCoin(input: UpdateCoinInput!): Boolean!
+  deleteCoin(input: DeleteCoinInput!): Boolean!
+}
+
+type Query {
+  getCoins: [Coin]
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
