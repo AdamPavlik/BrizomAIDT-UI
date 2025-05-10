@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   awsRegion: 'eu-central-1',
   identityPoolId: 'eu-central-1:8c372160-3ad1-4612-9804-543104d34f77',
   googleIssuer: 'https://accounts.google.com',

@@ -13,7 +13,7 @@ export const GET_COINS = gql`
     `;
 
 export const UPDATE_COIN = gql`
-  mutation PutCoin($input: UpdateCoinInput!) {
+  mutation UpdateCoin($input: UpdateCoinInput!) {
     updateCoin(input: $input)
   }
 `;
@@ -45,5 +45,30 @@ export const GET_PROMPTS = gql`
       role
       enabled
     }
+  }
+`;
+
+export const ADD_PROMPT = gql`
+  mutation AddPrompt($input: AddPromptInput!) {
+    addPrompt(input: $input) {
+      id
+      userId
+      prompt
+      role
+      enabled
+    }
+  }
+`;
+
+export const DELETE_PROMPT = gql`
+  mutation DeletePrompt($input: DeletePromptInput!) {
+    deletePrompt(input: $input)
+  }
+`;
+
+
+export const UPDATE_PROMPT = gql`
+  mutation UpdatePrompt($input: UpdatePromptInput!) {
+    updatePrompt(input: $input)
   }
 `;

@@ -1,5 +1,12 @@
-<mat-grid-list cols="3" rowHeight="1:1" gutterSize="15px">
-  <mat-grid-tile>
+<mat-card class="error" *ngIf="!isAuthenticated()">
+  <mat-card-header>
+    <mat-card-subtitle>
+      Please Log In to use application. Click circle in top right.
+    </mat-card-subtitle>
+  </mat-card-header>
+</mat-card>
+<mat-grid-list [cols]="cols" rowHeight="1:1" gutterSize="15px">
+    <mat-grid-tile>
       <mat-card>
         <mat-card-header>
           <mat-card-title>Coins</mat-card-title>
@@ -11,70 +18,71 @@
           <button mat-stroked-button routerLink="/coin">Manage Coins</button>
         </mat-card-actions>
       </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Prompts</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>content</p>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button mat-stroked-button routerLink="/prompt">Manage Prompts</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Configuration</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>content</p>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button mat-stroked-button>Action</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Signals History</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>content</p>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button mat-stroked-button>Action</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Orders History</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>content</p>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button mat-stroked-button>Action</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>TODO</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>content</p>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button mat-stroked-button>Action</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Prompts</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>content</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-stroked-button routerLink="/prompt">Manage Prompts</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Configuration</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>content</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-stroked-button>Action</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Signals History</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>content</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-stroked-button>Action</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Orders History</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>content</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-stroked-button>Action</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>TODO</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>content</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-stroked-button>Action</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+

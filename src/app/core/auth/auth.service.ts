@@ -19,7 +19,6 @@ export const authConfig: AuthConfig = {
   requestAccessToken: true,
   clearHashAfterLogin: true,
   disableAtHashCheck: true,
-  showDebugInformation: true,
 };
 
 @Injectable({

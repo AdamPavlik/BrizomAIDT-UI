@@ -1,8 +1,14 @@
 input AddCoinInput {
   symbol: String!
-  executeOrder: Boolean
-  generateSignal: Boolean
-  sendEmail: Boolean
+  executeOrder: Boolean!
+  generateSignal: Boolean!
+  sendEmail: Boolean!
+}
+
+input AddPromptInput {
+  role: String!
+  prompt: String!
+  enabled: Boolean!
 }
 
 type Coin {
@@ -15,6 +21,10 @@ type Coin {
 }
 
 input DeleteCoinInput {
+  id: ID!
+}
+
+input DeletePromptInput {
   id: ID!
 }
 
@@ -34,10 +44,20 @@ input UpdateCoinInput {
   sendEmail: Boolean!
 }
 
+input UpdatePromptInput {
+  id: ID!
+  role: String!
+  prompt: String!
+  enabled: Boolean!
+}
+
 type Mutation {
   addCoin(input: AddCoinInput!): Coin!
   updateCoin(input: UpdateCoinInput!): Boolean!
   deleteCoin(input: DeleteCoinInput!): Boolean!
+  addPrompt(input: AddPromptInput!): Prompt!
+  deletePrompt(input: DeletePromptInput!): Boolean!
+  updatePrompt(input: UpdatePromptInput!): Boolean!
 }
 
 type Query {

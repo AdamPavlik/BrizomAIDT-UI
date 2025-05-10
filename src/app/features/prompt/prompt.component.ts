@@ -40,15 +40,26 @@ export class PromptComponent implements OnInit {
   }
 
   addPrompt(promptStr: string, role: string): void {
-    console.log(promptStr, role);
+    let prompt: Prompt = {
+      prompt: promptStr,
+      role: role,
+      enabled: false
+    }
+    this.promptService.addPrompt(prompt).then(promptResult => {
+      this.prompts.unshift(promptResult);
+    })
   }
 
   updatePrompt(prompt: Prompt): void {
-    console.log(prompt);
+    this.promptService.updatePrompt(prompt).then();
   }
 
   deletePrompt(id: string): void {
-    console.log(id);
+    this.promptService.deletePrompt(id).then(result => {
+      if (result) {
+        this.prompts = this.prompts.filter(prompt => prompt.id !== id);
+      }
+    })
   }
 
 

@@ -21,6 +21,12 @@ mat-nav-list {
   margin: auto; /* center inside the button */
 }
 
+.main-container {
+  max-width: 1800px;
+  margin: auto;
+  overflow-x: auto;
+}
+
 .google {
   width: 175px;
   height: 40px;

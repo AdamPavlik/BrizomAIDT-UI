@@ -18,7 +18,7 @@ import {MatMenu, MatMenuTrigger} from '@angular/material/menu';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnDestroy {
-  title = 'Brizom AIDT';
+  title = 'AIDT';
 
 
   protected readonly isMobile = signal(true);

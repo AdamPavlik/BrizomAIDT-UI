@@ -46,7 +46,7 @@
       <mat-action-row>
         <mat-slide-toggle [checked]="prompt.enabled" [(ngModel)]="prompt.enabled"
                           (change)="updatePrompt(prompt)"></mat-slide-toggle>
-        <button mat-stroked-button [value]="prompt.enabled" class="error" (click)="deletePrompt(prompt.id)">Delete
+        <button mat-stroked-button [value]="prompt.enabled" class="error" (click)="deletePrompt(prompt.id!)">Delete
         </button>
         <button mat-stroked-button (click)="updatePrompt(prompt); panel.close()">Update</button>
       </mat-action-row>

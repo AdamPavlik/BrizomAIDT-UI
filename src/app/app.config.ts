@@ -19,6 +19,7 @@ export const appConfig: ApplicationConfig = {
       }),
       provideAppInitializer(() => {
         const oAuthService = inject(OAuthService);
+        oAuthService.setStorage(localStorage)
         oAuthService.configure(authConfig);
         return oAuthService.loadDiscoveryDocumentAndTryLogin();
       })

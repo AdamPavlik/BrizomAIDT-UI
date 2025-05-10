@@ -3,7 +3,11 @@ mat-grid-list {
   padding: 15px;
 }
 
-mat-card {
+.sign-in-card {
+  margin-top: 15px;
+}
+
+mat-grid-tile mat-card {
   width: 100%;
   height: 100%;
   margin: 0;
