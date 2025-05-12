@@ -1,0 +1,26 @@
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+}
+
+mat-list-item {
+  height: auto !important;
+}
+
+
+.setting-row-wide mat-form-field {
+  margin-bottom: -1.25em;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-slider {
+  margin-top: 20px;
+  width: 180px;
+  margin-right: 25px;
+}
+

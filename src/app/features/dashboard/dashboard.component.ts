@@ -18,6 +18,7 @@ import {
 } from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {Setting, SettingsService} from '../../core/grapfql/settings.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -61,8 +62,13 @@ export class DashboardComponent implements OnInit {
 
   public coins: Coin[] = [];
   public prompts: Prompt[] = [];
+  public setting: Setting = {};
 
-  constructor(private coinService: CoinService, private promptService: PromptService, private authService: AuthService, private destroyRef: DestroyRef) {
+  constructor(private coinService: CoinService,
+              private promptService: PromptService,
+              private settingService: SettingsService,
+              private authService: AuthService,
+              private destroyRef: DestroyRef) {
     this.updateCols();
   }
 
@@ -74,6 +80,7 @@ export class DashboardComponent implements OnInit {
       this.promptService.getPrompts().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(prompts => {
         this.prompts = prompts;
       });
+      this.settingService.getSetting().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(setting => {this.setting = setting;});
     }
   }
 

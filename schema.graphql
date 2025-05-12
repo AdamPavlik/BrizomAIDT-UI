@@ -11,6 +11,24 @@ input AddPromptInput {
   enabled: Boolean!
 }
 
+input AddSettingInput {
+  email: String!
+}
+
+input UpdateSettingInput {
+  sendEmails: Boolean
+  generateSignals: Boolean
+  executeOrders: Boolean
+  aiProvider: String
+  aiModel: String
+  effort: String
+  maxTokens: Int
+  startTime: Int
+  email: String
+  includeBalances: Boolean
+  includeLiveData: Boolean
+}
+
 type Coin {
   id: ID
   symbol: String
@@ -36,6 +54,21 @@ type Prompt {
   enabled: Boolean
 }
 
+type Setting {
+  userId: String
+  sendEmails: Boolean
+  generateSignals: Boolean
+  executeOrders: Boolean
+  aiProvider: String
+  aiModel: String
+  effort: String
+  maxTokens: Int
+  startTime: Int
+  email: String
+  includeBalances: Boolean
+  includeLiveData: Boolean
+}
+
 input UpdateCoinInput {
   id: ID!
   symbol: String!
@@ -58,11 +91,14 @@ type Mutation {
   addPrompt(input: AddPromptInput!): Prompt!
   deletePrompt(input: DeletePromptInput!): Boolean!
   updatePrompt(input: UpdatePromptInput!): Boolean!
+  addSetting(input: AddSettingInput!): Setting!
+  updateSetting(input: UpdateSettingInput!): Boolean!
 }
 
 type Query {
   getCoins: [Coin]
   getPrompts: [Prompt]
+  getSetting: Setting
 }
 
 schema {

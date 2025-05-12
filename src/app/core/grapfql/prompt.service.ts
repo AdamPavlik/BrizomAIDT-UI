@@ -10,8 +10,8 @@ import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
 export class PromptService {
 
   private prompts = new BehaviorSubject<Prompt[]>([]);
-  private promptsObservable = this.prompts.asObservable().pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))
-  );
+  private promptsObservable = this.prompts.asObservable()
+    .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)));
 
   public apollo: ApolloClient<any>;
 
@@ -20,7 +20,7 @@ export class PromptService {
     this.fetchPrompts();
   }
 
-  public fetchPrompts() {
+  private fetchPrompts() {
     this.apollo.query<{ getPrompts: Prompt[]; }>({query: GET_PROMPTS}).then(({data}) => {
       this.prompts.next((data.getPrompts ?? []).map(p => ({...p})));
     });

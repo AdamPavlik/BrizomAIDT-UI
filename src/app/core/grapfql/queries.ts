@@ -72,3 +72,44 @@ export const UPDATE_PROMPT = gql`
     updatePrompt(input: $input)
   }
 `;
+
+export const GET_SETTING = gql`
+  query getSetting {
+    getSetting {
+      sendEmails
+      generateSignals
+      executeOrders
+      aiProvider
+      aiModel
+      effort
+      maxTokens
+      startTime
+      email
+      includeBalances
+      includeLiveData
+    }
+  }
+`;
+
+export const ADD_SETTING = gql`
+  mutation AddSetting($input: AddSettingInput!) {
+    addSetting(input: $input) {
+      sendEmails
+      generateSignals
+      executeOrders
+      aiProvider
+      aiModel
+      effort
+      maxTokens
+      startTime
+      includeBalances
+      includeLiveData
+    }
+  }
+`;
+
+export const UPDATE_SETTING = gql`
+  mutation UpdateSetting($input: UpdateSettingInput!) {
+    updateSetting(input: $input)
+  }
+`;

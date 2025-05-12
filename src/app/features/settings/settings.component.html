@@ -1,0 +1,125 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>General Enables</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item>
+        <div class="setting-row">
+          <span>Enable signal generation</span>
+          <mat-slide-toggle [(ngModel)]="setting.generateSignals" [checked]="true" (change)="updateGenerateSignals($event.checked)"></mat-slide-toggle>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <div class="setting-row">
+          <span>Enable emails sending</span>
+          <mat-slide-toggle [(ngModel)]="setting.sendEmails" [checked]="true" (change)="updateSendEmails($event.checked)"></mat-slide-toggle>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <div class="setting-row">
+          <span>Enable automated order execution</span>
+          <mat-slide-toggle [(ngModel)]="setting.executeOrders" [checked]="true" (change)="updateExecuteOrders($event.checked)"></mat-slide-toggle>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>AI Settings</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item>
+        <div class="setting-row setting-row-wide">
+          <span>Model</span>
+          <mat-form-field appearance="outline" >
+            <mat-select [(value)]="setting.aiModel" (selectionChange)="updateAiModel($event.value)">
+              <mat-option value="o3">o3</mat-option>
+              <mat-option value="GPT-4.5">GPT-4.5</mat-option>
+              <mat-option value="GPT-4o">GPT-4o</mat-option>
+              <mat-option value="o4-mini-heigh">o4-mini-heigh</mat-option>
+              <mat-option value="o4-mini">o4-mini</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <div class="setting-row setting-row-wide">
+          <span>Effort</span>
+          <mat-form-field appearance="outline">
+            <mat-select [(value)]="setting.effort" (selectionChange)="updateEffort($event.value)">
+              <mat-option value="HEIGH">HEIGH</mat-option>
+              <mat-option value="MEDIUM" >MEDIUM</mat-option>
+              <mat-option value="LOW">LOW</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <div class="setting-row setting-row-wide">
+          <span>Max tokens</span>
+          <mat-slider min="2000" max="32000" step="500" showTickMarks discrete [displayWith]="formatLabel" >
+            <input [(ngModel)]="setting.maxTokens" matSliderThumb (valueChange)="updateMaxTokens($event)">
+          </mat-slider>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Trading Bot</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item>
+        <div class="setting-row setting-row-wide">
+          <span>Start time</span>
+          <mat-form-field appearance="outline">
+            <input matInput [matTimepicker]="picker" [value]="startTime">
+            <mat-timepicker interval="1h" (selected)="updateStartTime($event.value)"  #picker/>
+          </mat-form-field>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <div class="setting-row">
+          <span>Include Balances</span>
+          <mat-slide-toggle [(ngModel)]="setting.includeBalances" [checked]="true" (change)="updateIncludeBalances($event.checked)"></mat-slide-toggle>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <div class="setting-row">
+          <span>Include Live Data</span>
+          <mat-slide-toggle [(ngModel)]="setting.includeLiveData" [checked]="true" (change)="updateIncludeLiveData($event.checked)"></mat-slide-toggle>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Binance Credentials</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field class="full-width" appearance="outline">
+      <input matInput placeholder="API KEY">
+    </mat-form-field>
+    <mat-form-field class="full-width" appearance="outline">
+      <input matInput placeholder="SECRET KEY">
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-stroked-button>Save Keys</button>
+  </mat-card-actions>
+</mat-card>
