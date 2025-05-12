@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
 import {Prompt, PromptService} from '../../core/grapfql/prompt.service';
 import {NgForOf} from '@angular/common';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -10,6 +10,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
 import {FormsModule} from '@angular/forms';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-prompt',
@@ -32,11 +33,13 @@ export class PromptComponent implements OnInit {
 
   public prompts: Prompt[] = [];
 
-  constructor(private promptService: PromptService) {
+  constructor(private promptService: PromptService, private destroyRef: DestroyRef) {
   }
 
   ngOnInit(): void {
-    this.promptService.getPrompts().then(prompts => this.prompts = prompts);
+    this.promptService.getPrompts()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(prompts => this.prompts = prompts);
   }
 
   addPrompt(promptStr: string, role: string): void {
@@ -45,9 +48,7 @@ export class PromptComponent implements OnInit {
       role: role,
       enabled: false
     }
-    this.promptService.addPrompt(prompt).then(promptResult => {
-      this.prompts.unshift(promptResult);
-    })
+    this.promptService.addPrompt(prompt).then()
   }
 
   updatePrompt(prompt: Prompt): void {
@@ -55,11 +56,7 @@ export class PromptComponent implements OnInit {
   }
 
   deletePrompt(id: string): void {
-    this.promptService.deletePrompt(id).then(result => {
-      if (result) {
-        this.prompts = this.prompts.filter(prompt => prompt.id !== id);
-      }
-    })
+    this.promptService.deletePrompt(id).then();
   }
 
 

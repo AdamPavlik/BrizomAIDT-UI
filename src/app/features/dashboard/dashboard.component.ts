@@ -69,9 +69,8 @@ export class DashboardComponent implements OnInit {
     if (this.authService.isAuthenticated()) {
       this.coinService.getCoins().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(coins => {
         this.coins = coins;
-        console.log(coins)
       });
-      this.promptService.getPrompts().then(prompts => {
+      this.promptService.getPrompts().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(prompts => {
         this.prompts = prompts;
       });
     }
