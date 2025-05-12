@@ -51,6 +51,7 @@ export class DashboardComponent implements OnInit {
   ];
 
   promptColumns = [
+    'role',
     'enabled',
     'prompt',
   ];

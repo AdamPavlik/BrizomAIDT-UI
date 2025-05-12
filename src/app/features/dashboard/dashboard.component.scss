@@ -17,3 +17,14 @@ mat-card-content {
   height: 100%;
   overflow-y: auto;
 }
+
+.prompt-cell {
+  max-width: 300px;
+}
+
+.prompt-content {
+  max-height: 100px;
+  overflow-y: auto;
+  white-space: normal;
+  word-break: break-word;
+}
