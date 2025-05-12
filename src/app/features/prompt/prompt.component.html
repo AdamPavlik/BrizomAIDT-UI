@@ -30,7 +30,7 @@
         <mat-panel-title>
           {{ prompt.role }}
         </mat-panel-title>
-        <mat-panel-description> {{ prompt.prompt.slice(0, 30) }}...</mat-panel-description>
+        <mat-panel-description class="truncate"> {{ prompt.prompt}}</mat-panel-description>
       </mat-expansion-panel-header>
       <mat-form-field appearance="outline">
         <textarea rows="5" matInput [value]="prompt.prompt" [(ngModel)]="prompt.prompt"></textarea>

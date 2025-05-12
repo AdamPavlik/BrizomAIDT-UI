@@ -48,6 +48,12 @@ export class AppComponent implements OnDestroy {
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
   }
 
+  closeNavIfMobile(nav: MatSidenav) {
+    if(this.isMobile()) {
+      nav.close();
+    }
+  }
+
   login() {
     this.auth.login();
   }

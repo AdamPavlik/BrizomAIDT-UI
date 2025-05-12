@@ -2,22 +2,33 @@ import {Injectable} from '@angular/core';
 import {ADD_COIN, DELETE_COIN, GET_COINS, UPDATE_COIN} from './queries';
 import {AppSyncService} from './app-sync.service';
 import {ApolloClient} from '@apollo/client/core';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoinService {
 
+  private coins = new BehaviorSubject<Coin[]>([]);
+  private coinsObservable = this.coins.asObservable();
+
   public apollo: ApolloClient<any>;
 
   constructor(private appSync: AppSyncService) {
     this.apollo = appSync.getApollo();
+    this.fetchCoins();
   }
 
-  async getCoins(): Promise<Coin[]> {
-    const {data} = await this.apollo.query<{ getCoins: Coin[]; }>({query: GET_COINS});
-    return (data.getCoins ?? []).map(c => ({...c}));
+  public fetchCoins() {
+    this.apollo.query<{ getCoins: Coin[]; }>({query: GET_COINS}).then(({data}) => {
+      this.coins.next((data.getCoins ?? []).map(c => ({...c})));
+    });
   }
+
+  getCoins(): Observable<Coin[]> {
+    return this.coinsObservable;
+  }
+
 
   async updateCoin(coin: Coin): Promise<Boolean> {
     const input: Coin = {
@@ -27,6 +38,10 @@ export class CoinService {
       generateSignal: coin.generateSignal,
       sendEmail: coin.sendEmail
     };
+    const currentCoins = this.coins.getValue();
+    const updatedCoins = currentCoins.map(c => c.id === coin.id ? {...coin} : c);
+    this.coins.next(updatedCoins);
+
     const {data} = await this.apollo.mutate<{ updateCoin: Boolean }, { input: Coin }>({
       mutation: UPDATE_COIN,
       variables: {input: input}
@@ -41,14 +56,24 @@ export class CoinService {
       generateSignal: coin.generateSignal,
       sendEmail: coin.sendEmail
     };
+
     const {data} = await this.apollo.mutate<{ addCoin: Coin }, { input: Coin }>({
       mutation: ADD_COIN,
       variables: {input: input}
     });
-    return data!.addCoin
+
+    const newCoinWithId = data!.addCoin;
+    const currentCoins = this.coins.getValue();
+    this.coins.next([...currentCoins, newCoinWithId]);
+
+    return newCoinWithId;
   }
 
   async deleteCoin(id: string): Promise<Boolean> {
+    const currentCoins = this.coins.getValue();
+    const updatedCoins = currentCoins.filter(c => c.id !== id);
+    this.coins.next(updatedCoins);
+
     const {data} = await this.apollo.mutate<{ deleteCoin: Boolean }, { input: {id: string} }>({
       mutation: DELETE_COIN,
       variables: {input: {id: id}}

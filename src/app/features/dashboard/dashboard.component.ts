@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, DestroyRef, HostListener, OnInit} from '@angular/core';
 import {Coin, CoinService} from '../../core/grapfql/coin.service';
 import {Prompt, PromptService} from '../../core/grapfql/prompt.service';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
@@ -7,6 +7,17 @@ import {MatButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
 import {AuthService} from '../../core/auth/auth.service';
 import {NgIf} from '@angular/common';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatTableModule
+} from '@angular/material/table';
+import {MatIconModule} from '@angular/material/icon';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,23 +27,53 @@ import {NgIf} from '@angular/common';
     MatCardModule,
     MatButton,
     RouterLink,
-    NgIf
+    NgIf,
+    MatCell,
+    MatCellDef,
+    MatColumnDef,
+    MatHeaderCell,
+    MatHeaderRow,
+    MatHeaderRowDef,
+    MatTableModule,
+    MatIconModule
 
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+
+  coinColumns = [
+    'symbol',
+    'generateSignal',
+    'sendEmail',
+    'executeOrder',
+  ];
+
+  promptColumns = [
+    'enabled',
+    'prompt',
+  ];
+
 
   public cols = 3;
 
   public coins: Coin[] = [];
   public prompts: Prompt[] = [];
 
-  constructor(private coinService: CoinService, private promptService: PromptService, private authService: AuthService) {
-    if (authService.isAuthenticated()) {
-      coinService.getCoins().then(coins => {this.coins = coins;});
-      promptService.getPrompts().then(prompts => {this.prompts = prompts;});
+  constructor(private coinService: CoinService, private promptService: PromptService, private authService: AuthService, private destroyRef: DestroyRef) {
+    this.updateCols();
+  }
+
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.coinService.getCoins().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(coins => {
+        this.coins = coins;
+        console.log(coins)
+      });
+      this.promptService.getPrompts().then(prompts => {
+        this.prompts = prompts;
+      });
     }
   }
 
@@ -42,10 +83,13 @@ export class DashboardComponent {
   }
 
   private updateCols() {
-    const w = window.innerWidth;
-    if (w < 600) {
+    let w = window.innerWidth;
+    if (w > 600) {
+      w -= 247;
+    }
+    if (w < 800) {
       this.cols = 1;
-    } else if (w < 1200) {
+    } else if (w < 1600) {
       this.cols = 2;
     } else {
       this.cols = 3;
