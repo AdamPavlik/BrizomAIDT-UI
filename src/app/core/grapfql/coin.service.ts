@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ADD_COIN, DELETE_COIN, GET_COINS, UPDATE_COIN} from './queries';
 import {AppSyncService} from './app-sync.service';
 import {ApolloClient} from '@apollo/client/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 export class CoinService {
 
   private coins = new BehaviorSubject<Coin[]>([]);
-  private coinsObservable = this.coins.asObservable();
+  private coinsObservable = this.coins.asObservable().pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)));
 
   public apollo: ApolloClient<any>;
 

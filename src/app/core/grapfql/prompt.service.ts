@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AppSyncService} from './app-sync.service';
 import {ApolloClient} from '@apollo/client/core';
 import {ADD_PROMPT, DELETE_PROMPT, GET_PROMPTS, UPDATE_PROMPT} from './queries';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,8 @@ import {BehaviorSubject, Observable} from 'rxjs';
 export class PromptService {
 
   private prompts = new BehaviorSubject<Prompt[]>([]);
-  private promptsObservable = this.prompts.asObservable();
+  private promptsObservable = this.prompts.asObservable().pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))
+  );
 
   public apollo: ApolloClient<any>;
 
