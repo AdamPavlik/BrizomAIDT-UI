@@ -5,6 +5,11 @@ input AddCoinInput {
   sendEmail: Boolean!
 }
 
+input AddCredentialsInput {
+  binanceKey: String!
+  binanceSecretKey: String!
+}
+
 input AddPromptInput {
   role: String!
   prompt: String!
@@ -15,20 +20,6 @@ input AddSettingInput {
   email: String!
 }
 
-input UpdateSettingInput {
-  sendEmails: Boolean
-  generateSignals: Boolean
-  executeOrders: Boolean
-  aiProvider: String
-  aiModel: String
-  effort: String
-  maxTokens: Int
-  startTime: Int
-  email: String
-  includeBalances: Boolean
-  includeLiveData: Boolean
-}
-
 type Coin {
   id: ID
   symbol: String
@@ -36,6 +27,12 @@ type Coin {
   executeOrder: Boolean
   generateSignal: Boolean
   sendEmail: Boolean
+}
+
+type Credentials {
+  userId: String
+  binanceKey: String
+  binanceSecretKey: String
 }
 
 input DeleteCoinInput {
@@ -84,6 +81,20 @@ input UpdatePromptInput {
   enabled: Boolean!
 }
 
+input UpdateSettingInput {
+  sendEmails: Boolean
+  generateSignals: Boolean
+  executeOrders: Boolean
+  aiProvider: String
+  aiModel: String
+  effort: String
+  maxTokens: Int
+  startTime: Int
+  email: String
+  includeBalances: Boolean
+  includeLiveData: Boolean
+}
+
 type Mutation {
   addCoin(input: AddCoinInput!): Coin!
   updateCoin(input: UpdateCoinInput!): Boolean!
@@ -93,12 +104,15 @@ type Mutation {
   updatePrompt(input: UpdatePromptInput!): Boolean!
   addSetting(input: AddSettingInput!): Setting!
   updateSetting(input: UpdateSettingInput!): Boolean!
+  addCredentials(input: AddCredentialsInput): Boolean!
+  deleteCredentials: Boolean!
 }
 
 type Query {
   getCoins: [Coin]
   getPrompts: [Prompt]
   getSetting: Setting
+  isCredentialsExists: Boolean
 }
 
 schema {

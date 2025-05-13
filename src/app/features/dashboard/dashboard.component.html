@@ -6,16 +6,6 @@
   </mat-card-header>
 </mat-card>
 <mat-grid-list [cols]="cols" rowHeight="1:1" gutterSize="15px">
-  <mat-grid-tile>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Status</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>content</p>
-      </mat-card-content>
-    </mat-card>
-  </mat-grid-tile>
     <mat-grid-tile>
       <mat-card>
         <mat-card-header>
@@ -98,10 +88,86 @@
           <mat-card-title>Settings</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          {{setting.aiModel}}
+          <mat-list>
+            <mat-list-item>
+              <div class="setting-item">
+                <span>Start Time:</span>
+                <span class="setting-value">{{formatStartTime(setting.startTime)}}</span>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <div class="setting-item">
+                <span>AI Model:</span>
+                <span class="setting-value">{{setting.aiModel || 'Not set'}}</span>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <div class="setting-item">
+                <span>Effort Level:</span>
+                <span class="setting-value">{{setting.effort || 'Not set'}}</span>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <div class="setting-item">
+                <span>Generate Signals:</span>
+                <mat-icon *ngIf="setting.generateSignals" aria-hidden="false" fontIcon="check"></mat-icon>
+                <mat-icon *ngIf="!setting.generateSignals" aria-hidden="false" fontIcon="close"></mat-icon>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <div class="setting-item">
+                <span>Send Emails:</span>
+                <mat-icon *ngIf="setting.sendEmails" aria-hidden="false" fontIcon="check"></mat-icon>
+                <mat-icon *ngIf="!setting.sendEmails" aria-hidden="false" fontIcon="close"></mat-icon>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <div class="setting-item">
+                <span>Execute Orders:</span>
+                <mat-icon *ngIf="setting.executeOrders" aria-hidden="false" fontIcon="check"></mat-icon>
+                <mat-icon *ngIf="!setting.executeOrders" aria-hidden="false" fontIcon="close"></mat-icon>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <div class="setting-item">
+                <span>Max Tokens:</span>
+                <span class="setting-value">{{setting.maxTokens || 'Not set'}}</span>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <div class="setting-item">
+                <span>Include Balances:</span>
+                <mat-icon *ngIf="setting.includeBalances" aria-hidden="false" fontIcon="check"></mat-icon>
+                <mat-icon *ngIf="!setting.includeBalances" aria-hidden="false" fontIcon="close"></mat-icon>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <div class="setting-item">
+                <span>Include Live Data:</span>
+                <mat-icon *ngIf="setting.includeLiveData" aria-hidden="false" fontIcon="check"></mat-icon>
+                <mat-icon *ngIf="!setting.includeLiveData" aria-hidden="false" fontIcon="close"></mat-icon>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <div class="setting-item">
+                <span>Credentials configured:</span>
+                <mat-icon *ngIf="credentials" aria-hidden="false" fontIcon="check"></mat-icon>
+                <mat-icon *ngIf="!credentials" aria-hidden="false" fontIcon="close"></mat-icon>
+              </div>
+            </mat-list-item>
+          </mat-list>
         </mat-card-content>
         <mat-card-actions align="end">
-          <button mat-stroked-button>Action</button>
+          <button mat-stroked-button routerLink="/settings">Manage Settings</button>
         </mat-card-actions>
       </mat-card>
     </mat-grid-tile>

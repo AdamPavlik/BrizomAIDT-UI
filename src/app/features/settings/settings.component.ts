@@ -11,6 +11,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {Setting, SettingsService} from '../../core/grapfql/settings.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormsModule} from '@angular/forms';
+import {Credentials, CredentialsService} from '../../core/grapfql/credentials.service';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +25,8 @@ import {FormsModule} from '@angular/forms';
     MatTimepickerModule,
     MatInputModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './settings.component.html',
@@ -33,14 +36,20 @@ export class SettingsComponent {
   private currentMaxTokens = 0;
   public setting: Setting = {};
   public startTime = new Date(0, 0, 0, 0, 0, 0);
+  public isCredentialsExists = false;
 
 
-  constructor(private settingService: SettingsService, private destroyRef: DestroyRef) {
+  constructor(private settingService: SettingsService, private credentialsService: CredentialsService, private destroyRef: DestroyRef) {
     settingService.getSetting()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(value => {
         this.setting = value;
         this.startTime = this.mapTime(value.startTime!)
+      });
+    this.credentialsService.isCredentialsExists()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(value => {
+        this.isCredentialsExists = value;
       });
   }
 
@@ -52,6 +61,18 @@ export class SettingsComponent {
     const localMins = minsUTC - offset;
     date.setMinutes(localMins);
     return date;
+  }
+
+  addCredentials(binanceKey: string, binanceSecret: string) {
+    const credentials: Credentials = {
+      binanceKey: binanceKey,
+      binanceSecretKey: binanceSecret
+    }
+    this.credentialsService.addCredentials(credentials);
+  }
+
+  deleteCredentials() {
+    this.credentialsService.deleteCredentials();
   }
 
   formatLabel(value: number): string {
@@ -97,7 +118,7 @@ export class SettingsComponent {
   updateStartTime(startTimeDate: string) {
     const date = new Date(startTimeDate);
     const minsUTC = date.getUTCHours() * 60 + date.getUTCMinutes();
-    const settings: Setting = { startTime: minsUTC };
+    const settings: Setting = {startTime: minsUTC};
     this.settingService.updateSetting(settings).then();
   }
 

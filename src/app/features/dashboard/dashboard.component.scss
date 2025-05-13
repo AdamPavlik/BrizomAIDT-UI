@@ -28,3 +28,10 @@ mat-card-content {
   white-space: normal;
   word-break: break-word;
 }
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

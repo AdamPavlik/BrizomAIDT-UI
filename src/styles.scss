@@ -27,14 +27,14 @@ $gptTheme: mat.define-theme(
   color-scheme: dark;
   @include mat.all-component-themes($gptTheme);
   @include mat.sidenav-overrides((
-    'container-background-color': mat.get-theme-color($gptTheme, primary, 10),
-    'content-background-color': mat.get-theme-color($gptTheme, primary, 20)
+    container-background-color: mat.get-theme-color($gptTheme, primary, 10),
+    content-background-color: mat.get-theme-color($gptTheme, primary, 20)
   ));
   @include mat.toolbar-overrides((
-    'container-background-color': mat.get-theme-color($gptTheme, primary, 20)
+    container-background-color: mat.get-theme-color($gptTheme, primary, 20)
   ));
   @include mat.divider-overrides((
-    'color': mat.get-theme-color($gptTheme, primary, 30)
+    color: mat.get-theme-color($gptTheme, primary, 30)
   ));
   @include mat.slide-toggle-overrides((
     track-outline-width: 0,
@@ -56,6 +56,7 @@ $gptTheme: mat.define-theme(
   ));
   @include mat.table-overrides((
     background-color: mat.get-theme-color($gptTheme, primary, 10),
+    row-item-outline-color: mat.get-theme-color($gptTheme, primary, 30),
   ));
   @include mat.card-overrides((
     elevated-container-shape: 10px,
@@ -98,6 +99,7 @@ $gptTheme: mat.define-theme(
   .error {
     @include mat.button-color($theme: $gptTheme, $color-variant: 'error');
     @include mat.icon-button-color($theme: $gptTheme, $color-variant: 'error');
+    @include mat.icon-color($theme: $gptTheme, $color-variant: 'error');
     @include mat.card-overrides((
       subtitle-text-color: mat.get-theme-color($gptTheme, error, 90),
     ));

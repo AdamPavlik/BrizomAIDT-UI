@@ -19,6 +19,8 @@ import {
 import {MatIconModule} from '@angular/material/icon';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Setting, SettingsService} from '../../core/grapfql/settings.service';
+import {CredentialsService} from '../../core/grapfql/credentials.service';
+import {MatListModule} from '@angular/material/list';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,8 +38,8 @@ import {Setting, SettingsService} from '../../core/grapfql/settings.service';
     MatHeaderRow,
     MatHeaderRowDef,
     MatTableModule,
-    MatIconModule
-
+    MatIconModule,
+    MatListModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -63,11 +65,13 @@ export class DashboardComponent implements OnInit {
   public coins: Coin[] = [];
   public prompts: Prompt[] = [];
   public setting: Setting = {};
+  public credentials: boolean = false;
 
   constructor(private coinService: CoinService,
               private promptService: PromptService,
               private settingService: SettingsService,
               private authService: AuthService,
+              private credentialsService: CredentialsService,
               private destroyRef: DestroyRef) {
     this.updateCols();
   }
@@ -80,7 +84,12 @@ export class DashboardComponent implements OnInit {
       this.promptService.getPrompts().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(prompts => {
         this.prompts = prompts;
       });
-      this.settingService.getSetting().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(setting => {this.setting = setting;});
+      this.settingService.getSetting().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(setting => {
+        this.setting = setting;
+      });
+      this.credentialsService.isCredentialsExists().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(credentials => {
+        this.credentials = credentials;
+      })
     }
   }
 
@@ -106,6 +115,19 @@ export class DashboardComponent implements OnInit {
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
+  }
+
+  formatStartTime(minutes?: number): string {
+    if (minutes === undefined) {
+      return 'Not set';
+    }
+    const date = new Date();
+    date.setUTCHours(0, 0, 0, 0);
+    date.setUTCMinutes(minutes);
+    const localHours = date.getHours();
+    const localMinutes = date.getMinutes();
+
+    return `${localHours.toString().padStart(2, '0')}:${localMinutes.toString().padStart(2, '0')}`;
   }
 
 }

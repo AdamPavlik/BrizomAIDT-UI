@@ -10,7 +10,8 @@ import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
 export class CoinService {
 
   private coins = new BehaviorSubject<Coin[]>([]);
-  private coinsObservable = this.coins.asObservable().pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)));
+  private coinsObservable = this.coins.asObservable()
+    .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)));
 
   public apollo: ApolloClient<any>;
 

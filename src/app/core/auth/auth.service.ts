@@ -11,7 +11,6 @@ export const authConfig: AuthConfig = {
   issuer: environment.googleIssuer,
   clientId: environment.googleClientId,
   redirectUri: window.location.origin,
-  silentRefreshRedirectUri: window.location.origin,
   responseType: 'id_token token',
   scope: 'openid profile email',
   strictDiscoveryDocumentValidation: false,
@@ -19,6 +18,7 @@ export const authConfig: AuthConfig = {
   requestAccessToken: true,
   clearHashAfterLogin: true,
   disableAtHashCheck: true,
+  silentRefreshShowIFrame: false,
 };
 
 @Injectable({

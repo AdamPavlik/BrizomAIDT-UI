@@ -113,3 +113,21 @@ export const UPDATE_SETTING = gql`
     updateSetting(input: $input)
   }
 `;
+
+export const IS_CREDENTIALS_EXISTS = gql`
+  query isCredentialsExists {
+    isCredentialsExists
+  }
+`;
+
+export const ADD_CREDENTIALS = gql`
+  mutation AddCredentials($input: AddCredentialsInput!) {
+    addCredentials(input: $input)
+  }
+`;
+
+export const DELETE_CREDENTIALS = gql`
+  mutation deleteCredentials {
+    deleteCredentials
+  }
+`;
