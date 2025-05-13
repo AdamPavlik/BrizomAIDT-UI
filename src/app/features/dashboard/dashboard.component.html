@@ -5,196 +5,196 @@
     </mat-card-subtitle>
   </mat-card-header>
 </mat-card>
-<mat-grid-list [cols]="cols" rowHeight="1:1" gutterSize="15px">
-    <mat-grid-tile>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Coins</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <table mat-table [dataSource]="coins" class="coin-table mat-elevation-z2">
-            <ng-container matColumnDef="symbol">
-              <th mat-header-cell *matHeaderCellDef>Symbol</th>
-              <td mat-cell *matCellDef="let c"><strong>{{ c.symbol }}</strong></td>
-            </ng-container>
-            <ng-container matColumnDef="generateSignal">
-              <th mat-header-cell *matHeaderCellDef>Generate Signals</th>
-              <td mat-cell *matCellDef="let c">
-                <mat-icon *ngIf="c.generateSignal" aria-hidden="false"  fontIcon="check"></mat-icon>
-                <mat-icon *ngIf="!c.generateSignal" aria-hidden="false" fontIcon="close"></mat-icon>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="sendEmail">
-              <th mat-header-cell *matHeaderCellDef>Send Emails</th>
-              <td mat-cell *matCellDef="let c">
-                <mat-icon *ngIf="c.sendEmail" aria-hidden="false"  fontIcon="check"></mat-icon>
-                <mat-icon *ngIf="!c.sendEmail" aria-hidden="false" fontIcon="close"></mat-icon>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="executeOrder">
-              <th mat-header-cell *matHeaderCellDef>Execute Orders</th>
-              <td mat-cell *matCellDef="let c">
-                <mat-icon *ngIf="c.executeOrder" aria-hidden="false"  fontIcon="check"></mat-icon>
-                <mat-icon *ngIf="!c.executeOrder" aria-hidden="false" fontIcon="close"></mat-icon>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="coinColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: coinColumns;"></tr>
-          </table>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-stroked-button routerLink="/coin">Manage Coins</button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Prompts</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <table mat-table [dataSource]="prompts" class="coin-table mat-elevation-z2">
-            <ng-container matColumnDef="enabled">
-              <th mat-header-cell *matHeaderCellDef>Enabled</th>
-              <td mat-cell *matCellDef="let p">
-                <mat-icon *ngIf="p.enabled" aria-hidden="false"  fontIcon="check"></mat-icon>
-                <mat-icon *ngIf="!p.enabled" aria-hidden="false" fontIcon="close"></mat-icon>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="role">
-              <th mat-header-cell *matHeaderCellDef>Role</th>
-              <td mat-cell *matCellDef="let p">
-                <strong>{{ p.role }}</strong>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="prompt">
-              <th mat-header-cell *matHeaderCellDef>Prompt</th>
-              <td mat-cell *matCellDef="let p" class="prompt-cell">
-                <div class="prompt-content">{{ p.prompt }}</div>
-              </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="promptColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: promptColumns;"></tr>
-          </table>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-stroked-button routerLink="/prompt">Manage Prompts</button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Settings</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <div class="setting-item">
-                <span>Start Time:</span>
-                <span class="setting-value">{{formatStartTime(setting.startTime)}}</span>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <div class="setting-item">
-                <span>AI Model:</span>
-                <span class="setting-value">{{setting.aiModel || 'Not set'}}</span>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <div class="setting-item">
-                <span>Effort Level:</span>
-                <span class="setting-value">{{setting.effort || 'Not set'}}</span>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <div class="setting-item">
-                <span>Generate Signals:</span>
-                <mat-icon *ngIf="setting.generateSignals" aria-hidden="false" fontIcon="check"></mat-icon>
-                <mat-icon *ngIf="!setting.generateSignals" aria-hidden="false" fontIcon="close"></mat-icon>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <div class="setting-item">
-                <span>Send Emails:</span>
-                <mat-icon *ngIf="setting.sendEmails" aria-hidden="false" fontIcon="check"></mat-icon>
-                <mat-icon *ngIf="!setting.sendEmails" aria-hidden="false" fontIcon="close"></mat-icon>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <div class="setting-item">
-                <span>Execute Orders:</span>
-                <mat-icon *ngIf="setting.executeOrders" aria-hidden="false" fontIcon="check"></mat-icon>
-                <mat-icon *ngIf="!setting.executeOrders" aria-hidden="false" fontIcon="close"></mat-icon>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <div class="setting-item">
-                <span>Max Tokens:</span>
-                <span class="setting-value">{{setting.maxTokens || 'Not set'}}</span>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <div class="setting-item">
-                <span>Include Balances:</span>
-                <mat-icon *ngIf="setting.includeBalances" aria-hidden="false" fontIcon="check"></mat-icon>
-                <mat-icon *ngIf="!setting.includeBalances" aria-hidden="false" fontIcon="close"></mat-icon>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <div class="setting-item">
-                <span>Include Live Data:</span>
-                <mat-icon *ngIf="setting.includeLiveData" aria-hidden="false" fontIcon="check"></mat-icon>
-                <mat-icon *ngIf="!setting.includeLiveData" aria-hidden="false" fontIcon="close"></mat-icon>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <div class="setting-item">
-                <span>Credentials configured:</span>
-                <mat-icon *ngIf="credentials" aria-hidden="false" fontIcon="check"></mat-icon>
-                <mat-icon *ngIf="!credentials" aria-hidden="false" fontIcon="close"></mat-icon>
-              </div>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-stroked-button routerLink="/settings">Manage Settings</button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Signals History</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>content</p>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-stroked-button>Action</button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Orders History</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>content</p>
-        </mat-card-content>
-        <mat-card-actions align="end">
-          <button mat-stroked-button>Action</button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+<mat-grid-list [cols]="cols" rowHeight="1:0.8" gutterSize="15px">
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Coins</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="coins" class="coin-table mat-elevation-z2">
+          <ng-container matColumnDef="symbol">
+            <th mat-header-cell *matHeaderCellDef>Symbol</th>
+            <td mat-cell *matCellDef="let c"><strong>{{ c.symbol }}</strong></td>
+          </ng-container>
+          <ng-container matColumnDef="generateSignal">
+            <th mat-header-cell *matHeaderCellDef>Generate Signals</th>
+            <td mat-cell *matCellDef="let c">
+              <mat-icon *ngIf="c.generateSignal" aria-hidden="false" fontIcon="check"></mat-icon>
+              <mat-icon *ngIf="!c.generateSignal" aria-hidden="false" fontIcon="close"></mat-icon>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="sendEmail">
+            <th mat-header-cell *matHeaderCellDef>Send Emails</th>
+            <td mat-cell *matCellDef="let c">
+              <mat-icon *ngIf="c.sendEmail" aria-hidden="false" fontIcon="check"></mat-icon>
+              <mat-icon *ngIf="!c.sendEmail" aria-hidden="false" fontIcon="close"></mat-icon>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="executeOrder">
+            <th mat-header-cell *matHeaderCellDef>Execute Orders</th>
+            <td mat-cell *matCellDef="let c">
+              <mat-icon *ngIf="c.executeOrder" aria-hidden="false" fontIcon="check"></mat-icon>
+              <mat-icon *ngIf="!c.executeOrder" aria-hidden="false" fontIcon="close"></mat-icon>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="coinColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: coinColumns;"></tr>
+        </table>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-stroked-button routerLink="/coin">Manage Coins</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Settings</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Start Time:</span>
+              <span class="setting-value">{{ formatStartTime(setting.startTime) }}</span>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>AI Model:</span>
+              <span class="setting-value">{{ setting.aiModel || 'Not set' }}</span>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Effort Level:</span>
+              <span class="setting-value">{{ setting.effort || 'Not set' }}</span>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Generate Signals:</span>
+              <mat-icon *ngIf="setting.generateSignals" aria-hidden="false" fontIcon="check"></mat-icon>
+              <mat-icon *ngIf="!setting.generateSignals" aria-hidden="false" fontIcon="close"></mat-icon>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Send Emails:</span>
+              <mat-icon *ngIf="setting.sendEmails" aria-hidden="false" fontIcon="check"></mat-icon>
+              <mat-icon *ngIf="!setting.sendEmails" aria-hidden="false" fontIcon="close"></mat-icon>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Execute Orders:</span>
+              <mat-icon *ngIf="setting.executeOrders" aria-hidden="false" fontIcon="check"></mat-icon>
+              <mat-icon *ngIf="!setting.executeOrders" aria-hidden="false" fontIcon="close"></mat-icon>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Max Tokens:</span>
+              <span class="setting-value">{{ setting.maxTokens || 'Not set' }}</span>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Include Balances:</span>
+              <mat-icon *ngIf="setting.includeBalances" aria-hidden="false" fontIcon="check"></mat-icon>
+              <mat-icon *ngIf="!setting.includeBalances" aria-hidden="false" fontIcon="close"></mat-icon>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Include Live Data:</span>
+              <mat-icon *ngIf="setting.includeLiveData" aria-hidden="false" fontIcon="check"></mat-icon>
+              <mat-icon *ngIf="!setting.includeLiveData" aria-hidden="false" fontIcon="close"></mat-icon>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Credentials configured:</span>
+              <mat-icon *ngIf="credentials" aria-hidden="false" fontIcon="check"></mat-icon>
+              <mat-icon *ngIf="!credentials" aria-hidden="false" fontIcon="close"></mat-icon>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-stroked-button routerLink="/settings">Manage Settings</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="cols">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Prompts</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="prompts" class="coin-table mat-elevation-z2">
+          <ng-container matColumnDef="enabled">
+            <th mat-header-cell *matHeaderCellDef>Enabled</th>
+            <td mat-cell *matCellDef="let p">
+              <mat-icon *ngIf="p.enabled" aria-hidden="false" fontIcon="check"></mat-icon>
+              <mat-icon *ngIf="!p.enabled" aria-hidden="false" fontIcon="close"></mat-icon>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef>Role</th>
+            <td mat-cell *matCellDef="let p">
+              <strong>{{ p.role }}</strong>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="prompt">
+            <th mat-header-cell *matHeaderCellDef>Prompt</th>
+            <td mat-cell *matCellDef="let p" class="prompt-cell" >
+              <div class="prompt-content" >{{ p.prompt }}</div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="promptColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: promptColumns;"></tr>
+        </table>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-stroked-button routerLink="/prompt">Manage Prompts</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="cols">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Signals History</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>content</p>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-stroked-button>Action</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="cols">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Orders History</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>content</p>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-stroked-button>Action</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

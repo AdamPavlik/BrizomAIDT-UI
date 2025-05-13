@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
   ];
 
 
-  public cols = 3;
+  public cols = 2;
 
   public coins: Coin[] = [];
   public prompts: Prompt[] = [];
@@ -105,10 +105,8 @@ export class DashboardComponent implements OnInit {
     }
     if (w < 800) {
       this.cols = 1;
-    } else if (w < 1600) {
+    } else  {
       this.cols = 2;
-    } else {
-      this.cols = 3;
     }
   }
 
