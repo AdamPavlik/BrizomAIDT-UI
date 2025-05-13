@@ -84,6 +84,10 @@ export const GET_SETTING = gql`
       effort
       maxTokens
       startTime
+      stableCoin
+      onHoldAction
+      confidenceToBuy
+      confidenceToSell
       email
       includeBalances
       includeLiveData
@@ -102,6 +106,10 @@ export const ADD_SETTING = gql`
       effort
       maxTokens
       startTime
+      stableCoin
+      onHoldAction
+      confidenceToBuy
+      confidenceToSell
       includeBalances
       includeLiveData
     }

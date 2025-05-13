@@ -124,6 +124,34 @@
           <mat-divider></mat-divider>
           <mat-list-item>
             <div class="setting-item">
+              <span>Stable Coin:</span>
+              <span class="setting-value">{{ setting.stableCoin || 'Not set' }}</span>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Action on hold:</span>
+              <span class="setting-value">{{ setting.onHoldAction || 'Not set' }}</span>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Confidence to buy:</span>
+              <span class="setting-value">{{ setting.confidenceToBuy || 'Not set' }}%</span>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Confidence to sell:</span>
+              <span class="setting-value">{{ setting.confidenceToSell || 'Not set' }}%</span>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
               <span>Credentials configured:</span>
               <mat-icon *ngIf="credentials" aria-hidden="false" fontIcon="check"></mat-icon>
               <mat-icon *ngIf="!credentials" aria-hidden="false" fontIcon="close"></mat-icon>

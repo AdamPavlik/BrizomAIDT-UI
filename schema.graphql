@@ -61,6 +61,10 @@ type Setting {
   effort: String
   maxTokens: Int
   startTime: Int
+  stableCoin: String
+  onHoldAction: String
+  confidenceToBuy: String
+  confidenceToSell: String
   email: String
   includeBalances: Boolean
   includeLiveData: Boolean
@@ -90,6 +94,10 @@ input UpdateSettingInput {
   effort: String
   maxTokens: Int
   startTime: Int
+  stableCoin: String
+  onHoldAction: String
+  confidenceToBuy: String
+  confidenceToSell: String
   email: String
   includeBalances: Boolean
   includeLiveData: Boolean

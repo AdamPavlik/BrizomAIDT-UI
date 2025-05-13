@@ -33,7 +33,9 @@ import {NgIf} from '@angular/common';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-  private currentMaxTokens = 0;
+  private currentMaxTokens = 32000;
+  private currentConfidenceToSell = 50;
+  private currentConfidenceToBuy = 50;
   public setting: Setting = {};
   public startTime = new Date(0, 0, 0, 0, 0, 0);
   public isCredentialsExists = false;
@@ -44,6 +46,9 @@ export class SettingsComponent {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(value => {
         this.setting = value;
+        this.currentMaxTokens = value.maxTokens!;
+        this.currentConfidenceToSell = value.confidenceToSell!;
+        this.currentConfidenceToBuy = value.confidenceToBuy!;
         this.startTime = this.mapTime(value.startTime!)
       });
     this.credentialsService.isCredentialsExists()
@@ -100,6 +105,32 @@ export class SettingsComponent {
   updateAiModel(model: string) {
     const settings: Setting = {aiModel: model};
     this.settingService.updateSetting(settings).then();
+  }
+
+  updateStableCoin(coin: string) {
+    const settings: Setting = {stableCoin: coin};
+    this.settingService.updateSetting(settings).then();
+  }
+
+  updateOnHoldAction(action: string) {
+    const settings: Setting = {onHoldAction: action};
+    this.settingService.updateSetting(settings).then();
+  }
+
+  updateConfidenceToBuy(confidence: number) {
+    if (this.currentConfidenceToBuy !== confidence) {
+      this.currentConfidenceToBuy = confidence;
+      const settings: Setting = {confidenceToBuy: confidence};
+      this.settingService.updateSetting(settings).then();
+    }
+  }
+
+  updateConfidenceToSell(confidence: number) {
+    if (this.currentConfidenceToSell !== confidence) {
+      this.currentConfidenceToSell = confidence;
+      const settings: Setting = {confidenceToSell: confidence};
+      this.settingService.updateSetting(settings).then();
+    }
   }
 
   updateEffort(effort: string) {

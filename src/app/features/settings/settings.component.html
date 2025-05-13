@@ -65,7 +65,7 @@
       <mat-list-item>
         <div class="setting-row setting-row-wide">
           <span>Max tokens</span>
-          <mat-slider min="2000" max="32000" step="500" showTickMarks discrete [displayWith]="formatLabel" >
+          <mat-slider min="2000" max="32000" step="500" discrete [displayWith]="formatLabel" >
             <input [(ngModel)]="setting.maxTokens" matSliderThumb (valueChange)="updateMaxTokens($event)">
           </mat-slider>
         </div>
@@ -91,6 +91,31 @@
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
+        <div class="setting-row setting-row-wide">
+          <span>Stable Coin</span>
+          <mat-form-field appearance="outline">
+            <mat-select [(value)]="setting.stableCoin" (selectionChange)="updateStableCoin($event.value)">
+              <mat-option value="USDT">USDT</mat-option>
+              <mat-option value="USDC">USDC</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <div class="setting-row setting-row-wide">
+          <span>Action on hold</span>
+          <mat-form-field appearance="outline">
+            <mat-select [(value)]="setting.onHoldAction" (selectionChange)="updateOnHoldAction($event.value)">
+              <mat-option value="BUY">BUY</mat-option>
+              <mat-option value="HOLD">HOLD</mat-option>
+              <mat-option value="SELL">SELL</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
         <div class="setting-row">
           <span>Include Balances</span>
           <mat-slide-toggle [(ngModel)]="setting.includeBalances" [checked]="true" (change)="updateIncludeBalances($event.checked)"></mat-slide-toggle>
@@ -101,6 +126,24 @@
         <div class="setting-row">
           <span>Include Live Data</span>
           <mat-slide-toggle [(ngModel)]="setting.includeLiveData" [checked]="true" (change)="updateIncludeLiveData($event.checked)"></mat-slide-toggle>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <div class="setting-row setting-row-wide">
+          <span>Required confidence to buy</span>
+          <mat-slider min="0" max="100" step="1" discrete [displayWith]="formatLabel" >
+            <input [(ngModel)]="setting.confidenceToBuy" matSliderThumb (valueChange)="updateConfidenceToBuy($event)">
+          </mat-slider>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <div class="setting-row setting-row-wide">
+          <span>Required confidence to sell</span>
+          <mat-slider min="0" max="100" step="1"  discrete [displayWith]="formatLabel" >
+            <input [(ngModel)]="setting.confidenceToSell" matSliderThumb (valueChange)="updateConfidenceToSell($event)">
+          </mat-slider>
         </div>
       </mat-list-item>
     </mat-list>

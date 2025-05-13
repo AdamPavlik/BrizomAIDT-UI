@@ -55,6 +55,18 @@ export class SettingsService {
     if (setting.includeBalances) {
       currentSetting.includeBalances = setting.includeBalances;
     }
+    if (setting.stableCoin) {
+      currentSetting.stableCoin = setting.stableCoin;
+    }
+    if (setting.onHoldAction) {
+      currentSetting.onHoldAction = setting.onHoldAction;
+    }
+    if (setting.confidenceToBuy) {
+      currentSetting.confidenceToBuy = setting.confidenceToBuy;
+    }
+    if (setting.confidenceToSell) {
+      currentSetting.confidenceToSell = setting.confidenceToSell;
+    }
     this.setting.next(currentSetting);
 
     const {data} = await this.apollo.mutate<{ updateSetting: Boolean }, { input: Setting }>({
@@ -96,6 +108,10 @@ export interface Setting {
   maxTokens?: number;
   startTime?: number;
   email?: string;
+  stableCoin?: string;
+  onHoldAction?: string;
+  confidenceToBuy?: number;
+  confidenceToSell?: number;
   includeBalances?: boolean;
   includeLiveData?: boolean;
 }
