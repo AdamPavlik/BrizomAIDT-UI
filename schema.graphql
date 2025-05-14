@@ -43,6 +43,16 @@ input DeletePromptInput {
   id: ID!
 }
 
+type Order {
+  id: String
+  userId: String
+  date: String
+  quantity: String
+  quoteOrderQty: String
+  side: String
+  symbol: String
+}
+
 type Prompt {
   id: ID
   userId: String
@@ -68,6 +78,17 @@ type Setting {
   email: String
   includeBalances: Boolean
   includeLiveData: Boolean
+  balanceUtilization: Int
+}
+
+type Signal {
+  id: String
+  userId: String
+  action: String
+  coin: String
+  confidence: Int
+  date: String
+  reason: String
 }
 
 input UpdateCoinInput {
@@ -101,6 +122,7 @@ input UpdateSettingInput {
   email: String
   includeBalances: Boolean
   includeLiveData: Boolean
+  balanceUtilization: Int
 }
 
 type Mutation {
@@ -121,6 +143,8 @@ type Query {
   getPrompts: [Prompt]
   getSetting: Setting
   isCredentialsExists: Boolean
+  getOrders: [Order]
+  getSignals: [Signal]
 }
 
 schema {

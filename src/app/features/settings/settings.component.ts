@@ -36,6 +36,7 @@ export class SettingsComponent {
   private currentMaxTokens = 32000;
   private currentConfidenceToSell = 50;
   private currentConfidenceToBuy = 50;
+  private balanceUtilization = 100;
   public setting: Setting = {};
   public startTime = new Date(0, 0, 0, 0, 0, 0);
   public isCredentialsExists = false;
@@ -49,6 +50,7 @@ export class SettingsComponent {
         this.currentMaxTokens = value.maxTokens!;
         this.currentConfidenceToSell = value.confidenceToSell!;
         this.currentConfidenceToBuy = value.confidenceToBuy!;
+        this.balanceUtilization = value.balanceUtilization!;
         this.startTime = this.mapTime(value.startTime!)
       });
     this.credentialsService.isCredentialsExists()
@@ -77,6 +79,8 @@ export class SettingsComponent {
   }
 
   deleteCredentials() {
+    const settings: Setting = {executeOrders: false};
+    this.settingService.updateSetting(settings).then();
     this.credentialsService.deleteCredentials();
   }
 
@@ -161,6 +165,14 @@ export class SettingsComponent {
   updateIncludeLiveData(includeLiveData: boolean) {
     const settings: Setting = {includeLiveData: includeLiveData};
     this.settingService.updateSetting(settings).then();
+  }
+
+  updateBalanceUtilization(balanceUtilization: number) {
+    if (this.balanceUtilization !== balanceUtilization) {
+      this.balanceUtilization = balanceUtilization;
+      const settings: Setting = {balanceUtilization: balanceUtilization};
+      this.settingService.updateSetting(settings).then();
+    }
   }
 
 

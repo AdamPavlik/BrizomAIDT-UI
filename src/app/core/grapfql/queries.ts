@@ -91,6 +91,7 @@ export const GET_SETTING = gql`
       email
       includeBalances
       includeLiveData
+      balanceUtilization
     }
   }
 `;
@@ -112,6 +113,7 @@ export const ADD_SETTING = gql`
       confidenceToSell
       includeBalances
       includeLiveData
+      balanceUtilization
     }
   }
 `;
@@ -137,5 +139,33 @@ export const ADD_CREDENTIALS = gql`
 export const DELETE_CREDENTIALS = gql`
   mutation deleteCredentials {
     deleteCredentials
+  }
+`;
+
+export const GET_SIGNALS = gql`
+  query getSignals {
+    getSignals {
+      id
+      userId
+      coin
+      action
+      confidence
+      date
+      reason
+    }
+  }
+`;
+
+export const GET_ORDERS = gql`
+  query getOrders {
+    getOrders {
+      id
+      userId
+      date
+      quantity
+      quoteOrderQty
+      side
+      symbol
+    }
   }
 `;

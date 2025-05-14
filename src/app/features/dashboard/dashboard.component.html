@@ -157,6 +157,13 @@
               <mat-icon *ngIf="!credentials" aria-hidden="false" fontIcon="close"></mat-icon>
             </div>
           </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <div class="setting-item">
+              <span>Balance Utilization:</span>
+              <span class="setting-value">{{ setting.balanceUtilization || 'Not set' }}%</span>
+            </div>
+          </mat-list-item>
         </mat-list>
       </mat-card-content>
       <mat-card-actions align="end">
@@ -205,7 +212,7 @@
         <mat-card-title>Signals History</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>content</p>
+        <div *ngFor="let signal of signals">{{signal.coin}}</div>
       </mat-card-content>
       <mat-card-actions align="end">
         <button mat-stroked-button>Action</button>
@@ -218,7 +225,7 @@
         <mat-card-title>Orders History</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>content</p>
+        <div *ngFor="let order of orders">{{order.symbol}}</div>
       </mat-card-content>
       <mat-card-actions align="end">
         <button mat-stroked-button>Action</button>

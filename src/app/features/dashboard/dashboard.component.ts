@@ -6,7 +6,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
 import {AuthService} from '../../core/auth/auth.service';
-import {NgIf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {
   MatCell,
   MatCellDef,
@@ -21,6 +21,8 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {Setting, SettingsService} from '../../core/grapfql/settings.service';
 import {CredentialsService} from '../../core/grapfql/credentials.service';
 import {MatListModule} from '@angular/material/list';
+import {Order, OrderService} from '../../core/grapfql/order.service';
+import {Signal, SignalService} from '../../core/grapfql/signal.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,6 +42,7 @@ import {MatListModule} from '@angular/material/list';
     MatTableModule,
     MatIconModule,
     MatListModule,
+    NgForOf,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -65,6 +68,8 @@ export class DashboardComponent implements OnInit {
   public coins: Coin[] = [];
   public prompts: Prompt[] = [];
   public setting: Setting = {};
+  public orders: Order[] = [];
+  public signals: Signal[] = [];
   public credentials: boolean = false;
 
   constructor(private coinService: CoinService,
@@ -72,6 +77,8 @@ export class DashboardComponent implements OnInit {
               private settingService: SettingsService,
               private authService: AuthService,
               private credentialsService: CredentialsService,
+              private orderService: OrderService,
+              private signalService: SignalService,
               private destroyRef: DestroyRef) {
     this.updateCols();
   }
@@ -89,7 +96,9 @@ export class DashboardComponent implements OnInit {
       });
       this.credentialsService.isCredentialsExists().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(credentials => {
         this.credentials = credentials;
-      })
+      });
+      this.orderService.getOrders().then(value => this.orders = value);
+      this.signalService.getSignals().then(value => this.signals = value);
     }
   }
 

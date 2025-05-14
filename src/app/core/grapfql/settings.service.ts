@@ -67,6 +67,9 @@ export class SettingsService {
     if (setting.confidenceToSell) {
       currentSetting.confidenceToSell = setting.confidenceToSell;
     }
+    if (setting.balanceUtilization) {
+      currentSetting.balanceUtilization = setting.balanceUtilization;
+    }
     this.setting.next(currentSetting);
 
     const {data} = await this.apollo.mutate<{ updateSetting: Boolean }, { input: Setting }>({
@@ -114,4 +117,5 @@ export interface Setting {
   confidenceToSell?: number;
   includeBalances?: boolean;
   includeLiveData?: boolean;
+  balanceUtilization?: number;
 }

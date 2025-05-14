@@ -22,6 +22,7 @@ export const appConfig: ApplicationConfig = {
         oAuthService.silentRefreshShowIFrame = false;
         oAuthService.setStorage(localStorage)
         oAuthService.configure(authConfig);
+        oAuthService.setupAutomaticSilentRefresh();
         return oAuthService.loadDiscoveryDocumentAndTryLogin();
       })
     ]
