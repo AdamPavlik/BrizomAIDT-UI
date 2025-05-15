@@ -35,3 +35,22 @@ mat-card-content {
   align-items: center;
   width: 100%;
 }
+
+.signal-table, .coin-table, .order-table {
+  width: 100%;
+}
+
+.reason-cell {
+  max-width: 100%;
+}
+
+.reason-content {
+  max-height: 100px;
+  overflow-y: auto;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.date-row {
+  text-wrap: nowrap;
+}

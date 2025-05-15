@@ -6,7 +6,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
 import {AuthService} from '../../core/auth/auth.service';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgIf} from '@angular/common';
 import {
   MatCell,
   MatCellDef,
@@ -42,7 +42,7 @@ import {Signal, SignalService} from '../../core/grapfql/signal.service';
     MatTableModule,
     MatIconModule,
     MatListModule,
-    NgForOf,
+
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
@@ -60,6 +60,22 @@ export class DashboardComponent implements OnInit {
     'role',
     'enabled',
     'prompt',
+  ];
+
+  signalColumns = [
+    'coin',
+    'action',
+    'confidence',
+    'date',
+    'reason',
+  ];
+
+  orderColumns = [
+    'symbol',
+    'side',
+    'quantity',
+    'quoteOrderQty',
+    'date',
   ];
 
 
