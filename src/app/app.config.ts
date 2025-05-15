@@ -20,10 +20,15 @@ export const appConfig: ApplicationConfig = {
       provideAppInitializer(() => {
         const oAuthService = inject(OAuthService);
         oAuthService.silentRefreshShowIFrame = false;
-        oAuthService.setStorage(localStorage)
+        oAuthService.setStorage(localStorage);
         oAuthService.configure(authConfig);
-        oAuthService.setupAutomaticSilentRefresh();
-        return oAuthService.loadDiscoveryDocumentAndTryLogin();
+
+        return oAuthService.loadDiscoveryDocumentAndTryLogin().then(() => {
+          // Setup automatic silent refresh after successful login attempt
+          if (oAuthService.hasValidIdToken()) {
+            oAuthService.setupAutomaticSilentRefresh();
+          }
+        });
       })
     ]
   }

@@ -3,6 +3,7 @@ import {ADD_COIN, DELETE_COIN, GET_COINS, UPDATE_COIN} from './queries';
 import {AppSyncService} from './app-sync.service';
 import {ApolloClient} from '@apollo/client/core';
 import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,11 @@ export class CoinService {
 
   public apollo: ApolloClient<any>;
 
-  constructor(private appSync: AppSyncService) {
+  constructor(private appSync: AppSyncService, private authService: AuthService) {
     this.apollo = appSync.getApollo();
-    this.fetchCoins();
+    if (authService.isAuthenticated()) {
+      this.fetchCoins();
+    }
   }
 
   public fetchCoins() {

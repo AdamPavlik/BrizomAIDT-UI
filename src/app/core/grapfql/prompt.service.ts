@@ -3,6 +3,7 @@ import {AppSyncService} from './app-sync.service';
 import {ApolloClient} from '@apollo/client/core';
 import {ADD_PROMPT, DELETE_PROMPT, GET_PROMPTS, UPDATE_PROMPT} from './queries';
 import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,11 @@ export class PromptService {
 
   public apollo: ApolloClient<any>;
 
-  constructor(private appSync: AppSyncService) {
+  constructor(private appSync: AppSyncService, private authService: AuthService) {
     this.apollo = appSync.getApollo();
-    this.fetchPrompts();
+    if (authService.isAuthenticated()) {
+      this.fetchPrompts();
+    }
   }
 
   private fetchPrompts() {
@@ -78,10 +81,7 @@ export class PromptService {
     });
     return data!.updatePrompt
   }
-
-
 }
-
 
 export interface Prompt {
   id?: string;

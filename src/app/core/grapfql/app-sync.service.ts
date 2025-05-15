@@ -10,15 +10,18 @@ import {environment} from '../../../environments/environment';
 import {ApolloClient, ApolloLink, HttpLink, InMemoryCache} from '@apollo/client/core';
 
 
-export const createSignedFetcher = (credentials: CognitoIdentityCredentialProvider, region: string, endpoint: string) => {
-  const signer = new SignatureV4({
-    credentials,
-    region,
-    service: 'appsync',
-    sha256: Sha256,
-  });
-
+export const createSignedFetcher = (getCredentials: () => CognitoIdentityCredentialProvider, region: string, endpoint: string) => {
   return async (uri: RequestInfo | URL, options?: RequestInit): Promise<Response> => {
+    // Get fresh credentials for each request
+    const credentials = getCredentials();
+
+    const signer = new SignatureV4({
+      credentials,
+      region,
+      service: 'appsync',
+      sha256: Sha256,
+    });
+
     const url = typeof uri === 'string' ? new URL(uri) : new URL(uri.toString());
 
     const requestToSign = new HttpRequest({
@@ -52,8 +55,9 @@ export class AppSyncService {
   public apollo: ApolloClient<any>;
 
   constructor(private auth: AuthService) {
-    const credentials = this.auth.getCredentialProviderProvider()
-    const signedFetch = createSignedFetcher(credentials, environment.awsRegion, environment.appSyncEndpoint);
+    // Pass a function that returns fresh credentials each time it's called
+    const getCredentials = () => this.auth.getCredentialProvider();
+    const signedFetch = createSignedFetcher(getCredentials, environment.awsRegion, environment.appSyncEndpoint);
     const httpLink = new HttpLink({
       uri: environment.appSyncEndpoint,
       fetch: signedFetch,
@@ -69,5 +73,3 @@ export class AppSyncService {
   }
 
 }
-
-

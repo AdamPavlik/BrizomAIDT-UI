@@ -3,6 +3,7 @@ import {AppSyncService} from './app-sync.service';
 import {ApolloClient} from '@apollo/client/core';
 import {ADD_CREDENTIALS, DELETE_CREDENTIALS, IS_CREDENTIALS_EXISTS} from './queries';
 import {BehaviorSubject, distinctUntilChanged} from 'rxjs';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,14 @@ export class CredentialsService {
   public apollo: ApolloClient<any>;
 
 
-  constructor(private appSync: AppSyncService) {
+  constructor(private appSync: AppSyncService, private authService: AuthService) {
     this.apollo = appSync.getApollo();
-    this.apollo.query<{ isCredentialsExists: boolean; }>({query: IS_CREDENTIALS_EXISTS}).then(({data}) => {
-      this.isCredentialsExistsSubject.next(data.isCredentialsExists);
-    })
+    if (authService.isAuthenticated()) {
+      this.apollo.query<{ isCredentialsExists: boolean; }>({query: IS_CREDENTIALS_EXISTS}).then(({data}) => {
+        this.isCredentialsExistsSubject.next(data.isCredentialsExists);
+      })
+    }
+
   }
 
   isCredentialsExists() {

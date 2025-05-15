@@ -19,7 +19,9 @@ export class SettingsService {
 
   constructor(private appSync: AppSyncService, private authService: AuthService) {
     this.apollo = appSync.getApollo();
-    this.fetchSetting();
+    if (authService.isAuthenticated()) {
+      this.fetchSetting();
+    }
   }
 
   getSetting() {
