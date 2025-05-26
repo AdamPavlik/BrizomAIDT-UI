@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {AppSyncService} from './app-sync.service';
-import {ApolloClient} from '@apollo/client/core';
 import {ADD_PROMPT, DELETE_PROMPT, GET_PROMPTS, UPDATE_PROMPT} from './queries';
 import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
 import {AuthService} from '../auth/auth.service';
@@ -14,17 +13,15 @@ export class PromptService {
   private promptsObservable = this.prompts.asObservable()
     .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)));
 
-  public apollo: ApolloClient<any>;
 
   constructor(private appSync: AppSyncService, private authService: AuthService) {
-    this.apollo = appSync.getApollo();
     if (authService.isAuthenticated()) {
       this.fetchPrompts();
     }
   }
 
   private fetchPrompts() {
-    this.apollo.query<{ getPrompts: Prompt[]; }>({query: GET_PROMPTS}).then(({data}) => {
+    this.appSync.getApollo().query<{ getPrompts: Prompt[]; }>({query: GET_PROMPTS}).then(({data}) => {
       this.prompts.next((data.getPrompts ?? []).map(p => ({...p})));
     });
   }
@@ -39,7 +36,7 @@ export class PromptService {
       prompt: prompt.prompt,
       enabled: prompt.enabled,
     };
-    const {data} = await this.apollo.mutate<{ addPrompt: Prompt }, { input: Prompt }>({
+    const {data} = await this.appSync.getApollo().mutate<{ addPrompt: Prompt }, { input: Prompt }>({
       mutation: ADD_PROMPT,
       variables: {input: input}
     });
@@ -56,7 +53,7 @@ export class PromptService {
     const updatedPrompts = currentPrompts.filter(p => p.id !== id);
     this.prompts.next(updatedPrompts);
 
-    const {data} = await this.apollo.mutate<{ deletePrompt: Boolean }, { input: {id: string} }>({
+    const {data} = await this.appSync.getApollo().mutate<{ deletePrompt: Boolean }, { input: {id: string} }>({
       mutation: DELETE_PROMPT,
       variables: {input: {id: id}}
     });
@@ -75,7 +72,7 @@ export class PromptService {
     const updatedPrompts = currentPrompts.map(p => p.id === prompt.id ? {...prompt} : p);
     this.prompts.next(updatedPrompts);
 
-    const {data} = await this.apollo.mutate<{ updatePrompt: Boolean }, { input: Prompt }>({
+    const {data} = await this.appSync.getApollo().mutate<{ updatePrompt: Boolean }, { input: Prompt }>({
       mutation: UPDATE_PROMPT,
       variables: {input: input}
     });

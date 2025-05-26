@@ -19,12 +19,12 @@ export const appConfig: ApplicationConfig = {
       }),
       provideAppInitializer(async () => {
         const oAuthService = inject(OAuthService);
-        oAuthService.silentRefreshShowIFrame = false;
         oAuthService.setStorage(localStorage);
         oAuthService.configure(authConfig);
+        oAuthService.setupAutomaticSilentRefresh();
         await oAuthService.loadDiscoveryDocumentAndTryLogin();
-        if (oAuthService.hasValidIdToken()) {
-          oAuthService.setupAutomaticSilentRefresh();
+        if (!oAuthService.hasValidIdToken() && !!oAuthService.getIdToken()) {
+          await oAuthService.silentRefresh()
         }
       })
     ]

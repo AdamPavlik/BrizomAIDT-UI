@@ -52,24 +52,20 @@ export const createSignedFetcher = (getCredentials: () => CognitoIdentityCredent
 export class AppSyncService {
 
 
-  public apollo: ApolloClient<any>;
-
   constructor(private auth: AuthService) {
-    // Pass a function that returns fresh credentials each time it's called
+  }
+
+  public getApollo() {
     const getCredentials = () => this.auth.getCredentialProvider();
     const signedFetch = createSignedFetcher(getCredentials, environment.awsRegion, environment.appSyncEndpoint);
     const httpLink = new HttpLink({
       uri: environment.appSyncEndpoint,
       fetch: signedFetch,
     });
-    this.apollo = new ApolloClient({
+    return new ApolloClient({
       link: ApolloLink.from([httpLink]),
       cache: new InMemoryCache(),
     });
-  }
-
-  public getApollo() {
-    return this.apollo;
   }
 
 }

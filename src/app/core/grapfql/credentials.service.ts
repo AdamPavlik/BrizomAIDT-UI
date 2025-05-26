@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {AppSyncService} from './app-sync.service';
-import {ApolloClient} from '@apollo/client/core';
 import {ADD_CREDENTIALS, DELETE_CREDENTIALS, IS_CREDENTIALS_EXISTS} from './queries';
 import {BehaviorSubject, distinctUntilChanged} from 'rxjs';
 import {AuthService} from '../auth/auth.service';
@@ -15,13 +14,11 @@ export class CredentialsService {
   private isCredentialsExistsObservable = this.isCredentialsExistsSubject.asObservable()
     .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)));
 
-  public apollo: ApolloClient<any>;
 
 
   constructor(private appSync: AppSyncService, private authService: AuthService) {
-    this.apollo = appSync.getApollo();
     if (authService.isAuthenticated()) {
-      this.apollo.query<{ isCredentialsExists: boolean; }>({query: IS_CREDENTIALS_EXISTS}).then(({data}) => {
+      this.appSync.getApollo().query<{ isCredentialsExists: boolean; }>({query: IS_CREDENTIALS_EXISTS}).then(({data}) => {
         this.isCredentialsExistsSubject.next(data.isCredentialsExists);
       })
     }
@@ -33,7 +30,7 @@ export class CredentialsService {
   }
 
   addCredentials(credentials: Credentials) {
-    this.apollo.mutate<{ addCredentials: boolean; }>({
+    this.appSync.getApollo().mutate<{ addCredentials: boolean; }>({
       mutation: ADD_CREDENTIALS,
       variables: {input: credentials}
     }).then(({data}) => {
@@ -42,7 +39,7 @@ export class CredentialsService {
   }
 
   deleteCredentials() {
-    this.apollo.mutate<{ deleteCredentials: boolean; }>({mutation: DELETE_CREDENTIALS}).then(({data}) => {
+    this.appSync.getApollo().mutate<{ deleteCredentials: boolean; }>({mutation: DELETE_CREDENTIALS}).then(({data}) => {
       this.isCredentialsExistsSubject.next(false);
     });
   }

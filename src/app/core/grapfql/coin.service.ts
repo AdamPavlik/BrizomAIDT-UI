@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ADD_COIN, DELETE_COIN, GET_COINS, UPDATE_COIN} from './queries';
 import {AppSyncService} from './app-sync.service';
-import {ApolloClient} from '@apollo/client/core';
 import {BehaviorSubject, distinctUntilChanged, Observable} from 'rxjs';
 import {AuthService} from '../auth/auth.service';
 
@@ -14,17 +13,15 @@ export class CoinService {
   private coinsObservable = this.coins.asObservable()
     .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)));
 
-  public apollo: ApolloClient<any>;
 
   constructor(private appSync: AppSyncService, private authService: AuthService) {
-    this.apollo = appSync.getApollo();
     if (authService.isAuthenticated()) {
       this.fetchCoins();
     }
   }
 
   public fetchCoins() {
-    this.apollo.query<{ getCoins: Coin[]; }>({query: GET_COINS}).then(({data}) => {
+    this.appSync.getApollo().query<{ getCoins: Coin[]; }>({query: GET_COINS}).then(({data}) => {
       this.coins.next((data.getCoins ?? []).map(c => ({...c})));
     });
   }
@@ -46,7 +43,7 @@ export class CoinService {
     const updatedCoins = currentCoins.map(c => c.id === coin.id ? {...coin} : c);
     this.coins.next(updatedCoins);
 
-    const {data} = await this.apollo.mutate<{ updateCoin: Boolean }, { input: Coin }>({
+    const {data} = await this.appSync.getApollo().mutate<{ updateCoin: Boolean }, { input: Coin }>({
       mutation: UPDATE_COIN,
       variables: {input: input}
     });
@@ -61,7 +58,7 @@ export class CoinService {
       sendEmail: coin.sendEmail
     };
 
-    const {data} = await this.apollo.mutate<{ addCoin: Coin }, { input: Coin }>({
+    const {data} = await this.appSync.getApollo().mutate<{ addCoin: Coin }, { input: Coin }>({
       mutation: ADD_COIN,
       variables: {input: input}
     });
@@ -78,7 +75,7 @@ export class CoinService {
     const updatedCoins = currentCoins.filter(c => c.id !== id);
     this.coins.next(updatedCoins);
 
-    const {data} = await this.apollo.mutate<{ deleteCoin: Boolean }, { input: {id: string} }>({
+    const {data} = await this.appSync.getApollo().mutate<{ deleteCoin: Boolean }, { input: {id: string} }>({
       mutation: DELETE_COIN,
       variables: {input: {id: id}}
     });

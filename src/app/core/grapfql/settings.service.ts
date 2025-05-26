@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {ApolloClient} from '@apollo/client/core';
 import {AppSyncService} from './app-sync.service';
 import {ADD_SETTING, GET_SETTING, UPDATE_SETTING} from './queries';
 import {BehaviorSubject, distinctUntilChanged} from 'rxjs';
@@ -14,11 +13,7 @@ export class SettingsService {
   private settingObservable = this.setting.asObservable()
     .pipe(distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)));
 
-
-  public apollo: ApolloClient<any>;
-
   constructor(private appSync: AppSyncService, private authService: AuthService) {
-    this.apollo = appSync.getApollo();
     if (authService.isAuthenticated()) {
       this.fetchSetting();
     }
@@ -74,7 +69,7 @@ export class SettingsService {
     }
     this.setting.next(currentSetting);
 
-    const {data} = await this.apollo.mutate<{ updateSetting: Boolean }, { input: Setting }>({
+    const {data} = await this.appSync.getApollo().mutate<{ updateSetting: Boolean }, { input: Setting }>({
       mutation: UPDATE_SETTING,
       variables: {input: setting}
     });
@@ -83,7 +78,7 @@ export class SettingsService {
 
 
   private fetchSetting() {
-    this.apollo.query<{ getSetting: Setting; }>({query: GET_SETTING}).then(({data}) => {
+    this.appSync.getApollo().query<{ getSetting: Setting; }>({query: GET_SETTING}).then(({data}) => {
       if (data.getSetting != null) {
         this.setting.next(Object.assign({}, data.getSetting));
       } else {
@@ -93,7 +88,7 @@ export class SettingsService {
   }
 
   private async createNewSetting(): Promise<Setting> {
-    let {data} = await this.apollo.mutate<{ addSetting: Setting }, { input: Setting }>({
+    let {data} = await this.appSync.getApollo().mutate<{ addSetting: Setting }, { input: Setting }>({
       mutation: ADD_SETTING,
       variables: {input: {email: this.authService.getCurrentUser().email}}
     });

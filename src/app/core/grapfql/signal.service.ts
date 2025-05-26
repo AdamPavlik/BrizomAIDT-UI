@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {ApolloClient} from '@apollo/client/core';
 import {AppSyncService} from './app-sync.service';
 import {GET_SIGNALS} from './queries';
 import {AuthService} from '../auth/auth.service';
@@ -9,20 +8,16 @@ import {AuthService} from '../auth/auth.service';
 })
 export class SignalService {
 
-  public apollo: ApolloClient<any>;
-
   constructor(private appSync: AppSyncService, private authService: AuthService) {
-    this.apollo = appSync.getApollo();
   }
 
   async getSignals() {
     if (!this.authService.isAuthenticated()) {
       return [];
     }
-    let data = await this.apollo.query<{ getSignals: Signal[]; }>({query: GET_SIGNALS})
+    let data = await this.appSync.getApollo().query<{ getSignals: Signal[]; }>({query: GET_SIGNALS})
     return data.data.getSignals;
   }
-
 }
 
 

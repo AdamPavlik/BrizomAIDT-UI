@@ -6,6 +6,7 @@ import {
   CognitoIdentityCredentialProvider
 } from '@aws-sdk/credential-provider-cognito-identity/dist-types/fromCognitoIdentity';
 import {AuthConfig, OAuthService} from 'angular-oauth2-oidc';
+import {filter} from 'rxjs';
 
 export const authConfig: AuthConfig = {
   issuer: environment.googleIssuer,
@@ -13,6 +14,9 @@ export const authConfig: AuthConfig = {
   redirectUri: window.location.origin,
   scope: 'openid profile email',
   strictDiscoveryDocumentValidation: false,
+  silentRefreshShowIFrame: false,
+  useSilentRefresh: true,
+  silentRefreshRedirectUri: window.location.origin + "/assets/html/silent-refresh.html",
 };
 
 @Injectable({
@@ -26,6 +30,11 @@ export class AuthService {
   constructor(private oauth: OAuthService) {
     this.cognitoClient = new CognitoIdentityClient({region: environment.awsRegion});
     this.initCredentialProvider();
+    this.oauth.events
+      .pipe(filter(e => e.type === 'token_received'))
+      .subscribe(() => {
+        this.initCredentialProvider()
+      });
   }
 
   private initCredentialProvider() {
@@ -64,7 +73,7 @@ export class AuthService {
   }
 
   login() {
-    this.oauth.initCodeFlow()
+    this.oauth.initLoginFlow()
   }
 
   logout() {
