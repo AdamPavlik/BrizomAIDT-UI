@@ -17,18 +17,15 @@ export const appConfig: ApplicationConfig = {
           sendAccessToken: true
         }
       }),
-      provideAppInitializer(() => {
+      provideAppInitializer(async () => {
         const oAuthService = inject(OAuthService);
         oAuthService.silentRefreshShowIFrame = false;
         oAuthService.setStorage(localStorage);
         oAuthService.configure(authConfig);
-
-        return oAuthService.loadDiscoveryDocumentAndTryLogin().then(() => {
-          // Setup automatic silent refresh after successful login attempt
-          if (oAuthService.hasValidIdToken()) {
-            oAuthService.setupAutomaticSilentRefresh();
-          }
-        });
+        await oAuthService.loadDiscoveryDocumentAndTryLogin();
+        if (oAuthService.hasValidIdToken()) {
+          oAuthService.setupAutomaticSilentRefresh();
+        }
       })
     ]
   }
