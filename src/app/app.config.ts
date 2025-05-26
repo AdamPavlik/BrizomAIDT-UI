@@ -24,7 +24,11 @@ export const appConfig: ApplicationConfig = {
         oAuthService.setupAutomaticSilentRefresh();
         await oAuthService.loadDiscoveryDocumentAndTryLogin();
         if (!oAuthService.hasValidIdToken() && !!oAuthService.getIdToken()) {
-          await oAuthService.silentRefresh()
+          try {
+            await oAuthService.silentRefresh();
+          } catch (e) {
+            console.warn('Silent refresh failed', e)
+          }
         }
       })
     ]
