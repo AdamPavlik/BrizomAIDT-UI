@@ -7,6 +7,7 @@ import {
 } from '@aws-sdk/credential-provider-cognito-identity/dist-types/fromCognitoIdentity';
 import {AuthConfig, OAuthService} from 'angular-oauth2-oidc';
 import {filter} from 'rxjs';
+import {Router} from '@angular/router';
 
 export const authConfig: AuthConfig = {
   issuer: environment.googleIssuer,
@@ -27,7 +28,7 @@ export class AuthService {
   private credentialProvider: CognitoIdentityCredentialProvider | null = null;
   private cognitoClient: CognitoIdentityClient;
 
-  constructor(private oauth: OAuthService) {
+  constructor(private oauth: OAuthService, private router: Router) {
     this.cognitoClient = new CognitoIdentityClient({region: environment.awsRegion});
     this.initCredentialProvider();
     this.oauth.events
@@ -77,10 +78,11 @@ export class AuthService {
   }
 
   logout() {
-    this.oauth.logOut();
-    window.location.reload();
+    this.router.navigate(['']).then(value => {
+      this.oauth.logOut();
+      window.location.reload();
+    });
   }
-
 }
 
 export interface User {
