@@ -28,7 +28,7 @@
             <mat-icon>account_circle</mat-icon>
           }
           @if (isAuthenticated()) {
-            <img alt="avatar" [ngSrc]="currentUser().picture" class="avatar"/>
+            <img alt="avatar" [width]="24" [height]="24" [ngSrc]="currentUser().picture" class="avatar"/>
           }
         </button>
         <mat-menu #menu="matMenu">

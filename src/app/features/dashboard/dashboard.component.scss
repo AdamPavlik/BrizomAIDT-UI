@@ -38,6 +38,9 @@ mat-card-content {
 
 .signal-table, .coin-table, .order-table {
   width: 100%;
+  mat-chip {
+    min-width: 65px;
+  }
 }
 
 .reason-cell {
@@ -49,6 +52,7 @@ mat-card-content {
   overflow-y: auto;
   white-space: normal;
   word-break: break-word;
+  margin: 5px 0 5px 0;
 }
 
 .date-row {

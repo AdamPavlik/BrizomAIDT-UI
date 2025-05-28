@@ -23,6 +23,7 @@ import {CredentialsService} from '../../core/grapfql/credentials.service';
 import {MatListModule} from '@angular/material/list';
 import {Order, OrderService} from '../../core/grapfql/order.service';
 import {Signal, SignalService} from '../../core/grapfql/signal.service';
+import {MatChip} from '@angular/material/chips';
 
 @Component({
   selector: 'app-dashboard',
@@ -40,8 +41,9 @@ import {Signal, SignalService} from '../../core/grapfql/signal.service';
     MatHeaderRowDef,
     MatTableModule,
     MatIconModule,
-    MatListModule
-],
+    MatListModule,
+    MatChip
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

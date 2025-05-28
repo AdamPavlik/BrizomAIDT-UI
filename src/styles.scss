@@ -103,6 +103,17 @@ $gptTheme: mat.define-theme(
     @include mat.card-overrides((
       subtitle-text-color: mat.get-theme-color($gptTheme, error, 90),
     ));
+    @include mat.chips-overrides((
+      outline-color:  mat.get-theme-color($gptTheme, error, 35),
+      label-text-color:  mat.get-theme-color($gptTheme, error, 35),
+    ));
+  }
+
+  .success {
+    @include mat.chips-overrides((
+      outline-color:  #008635,
+      label-text-color:  #008635,
+    ));
   }
 
   mat-card-header {
