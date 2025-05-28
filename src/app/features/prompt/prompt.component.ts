@@ -1,6 +1,6 @@
 import {Component, DestroyRef, OnInit} from '@angular/core';
 import {Prompt, PromptService} from '../../core/grapfql/prompt.service';
-import {NgForOf} from '@angular/common';
+
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -15,7 +15,6 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-prompt',
   imports: [
-    NgForOf,
     MatExpansionModule,
     MatFormFieldModule,
     MatInput,
@@ -25,7 +24,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
     MatOption,
     MatSelect,
     FormsModule
-  ],
+],
   templateUrl: './prompt.component.html',
   styleUrl: './prompt.component.scss'
 })

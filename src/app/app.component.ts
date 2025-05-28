@@ -6,14 +6,15 @@ import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon, MatIconRegistry} from '@angular/material/icon';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {NgIf} from '@angular/common';
+
 import {DomSanitizer} from '@angular/platform-browser';
 import {AuthService} from './core/auth/auth.service';
 import {MatMenu, MatMenuTrigger} from '@angular/material/menu';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatSidenavContent, MatNavList, MatSidenav, MatSidenavContainer, MatToolbar, MatIcon, MatIconButton, NgIf, RouterLink, MatButton, MatMenu, MatMenuTrigger, MatList, MatListItem, MatDivider],
+  imports: [RouterOutlet, MatSidenavContent, MatNavList, MatSidenav, MatSidenavContainer, MatToolbar, MatIcon, MatIconButton, RouterLink, MatButton, MatMenu, MatMenuTrigger, MatList, MatListItem, MatDivider, NgOptimizedImage],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

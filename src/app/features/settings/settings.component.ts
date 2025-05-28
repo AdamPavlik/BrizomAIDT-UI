@@ -12,7 +12,7 @@ import {Setting, SettingsService} from '../../core/grapfql/settings.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormsModule} from '@angular/forms';
 import {Credentials, CredentialsService} from '../../core/grapfql/credentials.service';
-import {NgIf} from '@angular/common';
+
 
 @Component({
   selector: 'app-settings',
@@ -25,9 +25,8 @@ import {NgIf} from '@angular/common';
     MatTimepickerModule,
     MatInputModule,
     MatButtonModule,
-    FormsModule,
-    NgIf
-  ],
+    FormsModule
+],
   providers: [provideNativeDateAdapter()],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'

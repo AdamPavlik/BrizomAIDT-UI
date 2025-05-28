@@ -18,39 +18,41 @@
   </mat-card-content>
   <mat-card-actions align="end">
     <button mat-stroked-button [disabled]="!promptText.value || !roleSelect.value"
-            (click)="addPrompt(promptText.value, roleSelect.value); promptText.value = ''; roleSelect.value = undefined">
+      (click)="addPrompt(promptText.value, roleSelect.value); promptText.value = ''; roleSelect.value = undefined">
       Add prompt
     </button>
   </mat-card-actions>
 </mat-card>
 <div class="card-container">
   <mat-accordion>
-    <mat-expansion-panel #panel *ngFor="let prompt of prompts">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ prompt.role }}
-        </mat-panel-title>
-        <mat-panel-description class="truncate"> {{ prompt.prompt}}</mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-form-field appearance="outline">
-        <textarea rows="5" matInput [value]="prompt.prompt" [(ngModel)]="prompt.prompt"></textarea>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-select placeholder="Role" [(ngModel)]="prompt.role">
-          <mat-option value="SYSTEM">System</mat-option>
-          <mat-option value="DEVELOPER">Developer</mat-option>
-          <mat-option value="USER">User</mat-option>
-          <mat-option value="ASSISTANT">Assistant</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-action-row>
-        <mat-slide-toggle [checked]="prompt.enabled" [(ngModel)]="prompt.enabled"
-                          (change)="updatePrompt(prompt)"></mat-slide-toggle>
-        <button mat-stroked-button [value]="prompt.enabled" class="error" (click)="deletePrompt(prompt.id!)">Delete
-        </button>
-        <button mat-stroked-button (click)="updatePrompt(prompt); panel.close()">Update</button>
-      </mat-action-row>
-    </mat-expansion-panel>
+    @for (prompt of prompts; track prompt) {
+      <mat-expansion-panel #panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ prompt.role }}
+          </mat-panel-title>
+          <mat-panel-description class="truncate"> {{ prompt.prompt}}</mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-form-field appearance="outline">
+          <textarea rows="5" matInput [value]="prompt.prompt" [(ngModel)]="prompt.prompt"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Role" [(ngModel)]="prompt.role">
+            <mat-option value="SYSTEM">System</mat-option>
+            <mat-option value="DEVELOPER">Developer</mat-option>
+            <mat-option value="USER">User</mat-option>
+            <mat-option value="ASSISTANT">Assistant</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-action-row>
+          <mat-slide-toggle [checked]="prompt.enabled" [(ngModel)]="prompt.enabled"
+          (change)="updatePrompt(prompt)"></mat-slide-toggle>
+          <button mat-stroked-button [value]="prompt.enabled" class="error" (click)="deletePrompt(prompt.id!)">Delete
+          </button>
+          <button mat-stroked-button (click)="updatePrompt(prompt); panel.close()">Update</button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    }
   </mat-accordion>
 </div>
 

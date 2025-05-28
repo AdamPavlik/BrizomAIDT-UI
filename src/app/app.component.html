@@ -1,7 +1,7 @@
 <div class="container" [class.is-mobile]="isMobile()">
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #snav [mode]="isMobile() ? 'over' : 'side'" [opened]="!isMobile()" [fixedInViewport]="isMobile()"
-                 class="sidenav">
+      class="sidenav">
       <mat-toolbar class="toolbar">
         <button mat-icon-button (click)="snav.toggle()">
           <mat-icon svgIcon="side-nav"></mat-icon>
@@ -16,33 +16,43 @@
     </mat-sidenav>
     <mat-sidenav-content>
       <mat-toolbar class="toolbar">
-        <button *ngIf="!snav.opened" mat-icon-button (click)="snav.toggle()">
-          <mat-icon svgIcon="side-nav"></mat-icon>
-        </button>
+        @if (!snav.opened) {
+          <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon svgIcon="side-nav"></mat-icon>
+          </button>
+        }
         <mat-icon class="logo" svgIcon="logo" routerLink=""></mat-icon>
         <span class="tittle" routerLink="">{{ title }}</span>
         <button mat-icon-button class="user" [matMenuTriggerFor]="menu">
-          <mat-icon *ngIf="!isAuthenticated()">account_circle</mat-icon>
-          <img *ngIf="isAuthenticated()" alt="avatar" [src]="currentUser().picture" class="avatar"/>
+          @if (!isAuthenticated()) {
+            <mat-icon>account_circle</mat-icon>
+          }
+          @if (isAuthenticated()) {
+            <img alt="avatar" [ngSrc]="currentUser().picture" class="avatar"/>
+          }
         </button>
         <mat-menu #menu="matMenu">
-          <div *ngIf="!isAuthenticated()" class="auth">
-            <mat-icon class="google" svgIcon="google" (click)="login()"></mat-icon>
-            <mat-divider></mat-divider>
-            <button mat-button>Terms of Service</button>
-            <button mat-button>Privacy policy</button>
-          </div>
-          <div *ngIf="isAuthenticated()">
-            <mat-list class="user-menu">
-              <mat-list-item>{{ currentUser().name }}</mat-list-item>
+          @if (!isAuthenticated()) {
+            <div class="auth">
+              <mat-icon class="google" svgIcon="google" (click)="login()"></mat-icon>
               <mat-divider></mat-divider>
-              <mat-list-item>{{ currentUser().email }}</mat-list-item>
-              <mat-divider></mat-divider>
-              <mat-list-item>
-                <button mat-button (click)="logOut()" class="logout error">Log Out</button>
-              </mat-list-item>
-            </mat-list>
-          </div>
+              <button mat-button>Terms of Service</button>
+              <button mat-button>Privacy policy</button>
+            </div>
+          }
+          @if (isAuthenticated()) {
+            <div>
+              <mat-list class="user-menu">
+                <mat-list-item>{{ currentUser().name }}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>{{ currentUser().email }}</mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                  <button mat-button (click)="logOut()" class="logout error">Log Out</button>
+                </mat-list-item>
+              </mat-list>
+            </div>
+          }
         </mat-menu>
       </mat-toolbar>
       <div class="main-container">

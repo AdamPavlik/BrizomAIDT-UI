@@ -2,16 +2,18 @@
   <mat-card-header>
     <mat-card-subtitle>Add coin</mat-card-subtitle>
   </mat-card-header>
-    <mat-card-content>
-      <mat-form-field appearance="outline" class="coin-select">
-        <mat-label>Coin</mat-label>
-        <mat-select #coinSelect placeholder="coin">
-          <mat-option *ngFor="let coin of availableCoins" [value]="coin">{{coin}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-card-actions align="end">
-        <button [disabled]="!coinSelect.value" (click)="addCoin(coinSelect.value); coinSelect.value = undefined" mat-stroked-button>Add new coin</button>
-      </mat-card-actions>
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="coin-select">
+      <mat-label>Coin</mat-label>
+      <mat-select #coinSelect placeholder="coin">
+        @for (coin of availableCoins; track coin) {
+          <mat-option [value]="coin">{{coin}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-card-actions align="end">
+      <button [disabled]="!coinSelect.value" (click)="addCoin(coinSelect.value); coinSelect.value = undefined" mat-stroked-button>Add new coin</button>
+    </mat-card-actions>
   </mat-card-content>
 </mat-card>
 <mat-card>

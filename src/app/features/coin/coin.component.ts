@@ -7,7 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {MatSelectModule} from '@angular/material/select';
 import {COINS_LIST} from './coins';
-import {CommonModule} from '@angular/common';
+
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {Coin, CoinService} from '../../core/grapfql/coin.service';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
@@ -15,7 +15,6 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-coin',
   imports: [
-    CommonModule,
     FormsModule,
     MatTableModule,
     MatSlideToggleModule,
@@ -24,7 +23,7 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
     MatCardModule,
     MatFormFieldModule,
     MatSelectModule
-  ],
+],
   templateUrl: './coin.component.html',
   styleUrl: './coin.component.scss',
 })

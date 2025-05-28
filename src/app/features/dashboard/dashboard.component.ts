@@ -6,7 +6,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButton} from '@angular/material/button';
 import {RouterLink} from '@angular/router';
 import {AuthService} from '../../core/auth/auth.service';
-import {NgIf} from '@angular/common';
+
 import {
   MatCell,
   MatCellDef,
@@ -32,7 +32,6 @@ import {Signal, SignalService} from '../../core/grapfql/signal.service';
     MatCardModule,
     MatButton,
     RouterLink,
-    NgIf,
     MatCell,
     MatCellDef,
     MatColumnDef,
@@ -41,9 +40,8 @@ import {Signal, SignalService} from '../../core/grapfql/signal.service';
     MatHeaderRowDef,
     MatTableModule,
     MatIconModule,
-    MatListModule,
-
-  ],
+    MatListModule
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

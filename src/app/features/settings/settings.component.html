@@ -160,7 +160,7 @@
   <mat-card-header>
     <mat-card-title>Binance Credentials</mat-card-title>
   </mat-card-header>
-  <ng-container *ngIf="!isCredentialsExists">
+  @if (!isCredentialsExists) {
     <mat-card-content>
       <mat-form-field class="full-width" appearance="outline">
         <input  #keyInput  matInput placeholder="API KEY">
@@ -172,16 +172,15 @@
     <mat-card-actions align="end">
       <button mat-stroked-button [disabled]="!keyInput.value || !secretInput.value" (click)="addCredentials(keyInput.value, secretInput.value)">Save Keys</button>
     </mat-card-actions>
-  </ng-container>
-  <ng-container *ngIf="isCredentialsExists">
+  }
+  @if (isCredentialsExists) {
     <mat-card-header>
       <mat-card-title>Credentials successfully added</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-
     </mat-card-content>
     <mat-card-actions align="end">
       <button mat-stroked-button class="error" (click)="deleteCredentials()">Delete Keys</button>
     </mat-card-actions>
-  </ng-container>
+  }
 </mat-card>
